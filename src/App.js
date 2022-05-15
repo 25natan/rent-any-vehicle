@@ -41,6 +41,7 @@ function App() {
           <Route path="/signin" element={<SignIn setIsAuth={setIsAuth} isAuth={isAuth}/>}/>
         </Routes>
       </Router>
+      <div class="footer"><p>© Copyrights: Natan Ytzhaki & Yair Biber</p></div>
     </div>
   );
 }
