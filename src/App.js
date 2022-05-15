@@ -11,9 +11,12 @@ import AddItem from "./pages/Add-item";
 import Home from "./pages/Home";
 import { useState } from "react";
 import {signOut} from 'firebase/auth';
-import { auth } from "./firebase-config";
+import { auth, db } from "./firebase-config";
+import {setDoc, doc} from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 function App() {
+
   const [isAuth, setIsAuth] = useState(false);
   const signUserOut = () => {
     signOut(auth).then(() => {
@@ -22,6 +25,13 @@ function App() {
       window.location.pathname = 'signin';
     })
   };
+
+  const signUserUp = (userName, password) => {
+      setDoc(doc(db, "users", userName), {
+      userName: userName,
+      password: password
+    }, {merge: true});
+  }
 
   return (
     <div className="App">
@@ -38,10 +48,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}/>
           <Route path="/addItem" element={<AddItem />}/>
-          <Route path="/signin" element={<SignIn setIsAuth={setIsAuth}/>}/>
+          <Route path="/signIn" element={<SignIn signUserUp={signUserUp} setIsAuth={setIsAuth}/>}/>
+          <Route path="/signUp" element={<SignUp signUserUp={signUserUp} setIsAuth={setIsAuth}/>}/>
         </Routes>
       </Router>
-      <div class="footer"><p>© Copyrights: Natan Ytzhaki & Yair Biber</p></div>
+      <div className="footer"><p>© Copyrights: Natan Ytzhaki & Yair Biber</p></div>
     </div>
   );
 }

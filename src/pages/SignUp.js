@@ -5,6 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import {Link as RouterLink} from "react-router-dom";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -12,19 +13,21 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
-export default function SignUp() {
-  const handleSubmit = (event) => {
+export default function SignUp(props) {
+  let navigate = useNavigate();
+  
+  const signUp = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+    props.signUserUp(event.target.firstName.value + ' ' + event.target.lastName.value, event.target.password.value);
+    localStorage.setItem('isAuth', true);
+    console.log('isauth');
+    props.setIsAuth(true);
+    navigate('/');
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -46,8 +49,8 @@ export default function SignUp() {
           </Typography>
           <Box
             component="form"
+            onSubmit={signUp}
             noValidate
-            onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
@@ -76,29 +79,11 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
                   name="password"
                   label="Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
                 />
               </Grid>
             </Grid>
@@ -110,18 +95,13 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
-                <Link
-                  href="#"
-                  variant="body2"
-                  onClick={() => {
-                    sessionStorage.removeItem("signup");
-                    window.location.reload();
-                  }}
-                >
-                  Already have an account? Sign in
-                </Link>
+                <RouterLink to='/signIn'>
+                    <Link variant="body2">
+                      {"Already have an account? Sign In"}
+                    </Link>
+                </RouterLink>
               </Grid>
             </Grid>
           </Box>
