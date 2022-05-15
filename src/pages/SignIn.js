@@ -130,11 +130,13 @@ export default function SignIn({setIsAuth}) {
                 </Link>
               </Grid>
             </Grid>
+            <button className="signin-with-google-btn" onClick={signInWithGoogle}>Sign in with google</button>
           </Box>
 
         </Box>
+        
       </Container>
-          <button className="signin-with-google-btn" onClick={signInWithGoogle}>Sign in with google</button>
+          
     </ThemeProvider>
   );
 }
