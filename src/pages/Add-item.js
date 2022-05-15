@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import UploadButtons from "../UploadButton";
@@ -22,7 +23,7 @@ import { auth, db } from "../firebase-config";
 
 const theme = createTheme();
 
-export default function AddItem() {
+export default function AddItem({isAuth}) {
   const [type, setType] = useState(null);
   const [price, setPrice] = useState(null);
   const [images, setImages] = useState([]);
@@ -33,6 +34,9 @@ export default function AddItem() {
     await addDoc(vehiclesCollectionRef, {type, price, renter: {name: auth.currentUser.displayName, id: auth.currentUser.uid}});
     navigate('/');
   }
+  useEffect(() => {
+    if(!isAuth)  navigate('/');
+  },[]);
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs" style={{ marginTop: "100px" }}>
