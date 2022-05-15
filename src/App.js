@@ -31,7 +31,7 @@ function App() {
           {!isAuth ? <Link to='/signin'>Sign In</Link> : 
           <>
           <Link to='/addItem'>Add Item</Link>
-          <button onClick={signUserOut}>Sign Out</button>
+          <Link to='#' onClick={signUserOut}>Sign Out</Link>
           </>
           }
         </nav>
