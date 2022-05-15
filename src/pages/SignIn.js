@@ -16,24 +16,6 @@ import {auth, provider} from '../firebase-config';
 import {signInWithPopup} from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Just Rent It!
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const theme = createTheme();
 
 export default function SignIn({setIsAuth}) {
@@ -151,7 +133,6 @@ export default function SignIn({setIsAuth}) {
           </Box>
 
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
           <button className="signin-with-google-btn" onClick={signInWithGoogle}>Sign in with google</button>
     </ThemeProvider>
