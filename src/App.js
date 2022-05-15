@@ -9,7 +9,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import AddItem from "./pages/Add-item";
 import Home from "./pages/Home";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {signOut} from 'firebase/auth';
 import { auth } from "./firebase-config";
 
@@ -22,6 +22,13 @@ function App() {
       window.location.pathname = 'signin';
     })
   };
+  useEffect(() => {
+    localStorage.setItem('isAuth', isAuth);
+  }, [isAuth]);
+
+  useEffect(() => {
+    setIsAuth(localStorage.getItem('isAuth'));
+  }, []);
 
   return (
     <div className="App">
@@ -41,7 +48,7 @@ function App() {
           <Route path="/signin" element={<SignIn setIsAuth={setIsAuth} isAuth={isAuth}/>}/>
         </Routes>
       </Router>
-      <div class="footer"><p>© Copyrights: Natan Ytzhaki & Yair Biber</p></div>
+      <div className="footer"><p>© Copyrights: Natan Ytzhaki & Yair Biber</p></div>
     </div>
   );
 }

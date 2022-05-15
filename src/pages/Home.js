@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { getDocs, collection, doc } from 'firebase/firestore';
 import {db} from '../firebase-config';
+import VehicleItem from './VehicleItem';
+import { v4 } from 'uuid';
 
 const Home = props => {
     const [vehiclesList, setVehiclesList] = useState([]);
@@ -10,14 +12,14 @@ const Home = props => {
     useEffect(() => {
         const getVehicles = async () => {
             const data = await getDocs(vehiclesCollectionRef);
-           setVehiclesList('data', data.docs.map(doc => ({...doc.data(), id: doc.id})));
+           setVehiclesList(data.docs.map(doc => ({...doc.data(), id: doc.id})));
         };
         getVehicles();
     }, []);
 
     return (
         <div className='homePage'>
-            Home
+            {vehiclesList.map(vehicle => vehicle.type && <VehicleItem data={vehicle} key={vehicle.type + v4()}/> )}
         </div>
     );
 };
