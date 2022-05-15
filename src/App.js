@@ -28,8 +28,12 @@ function App() {
       <Router>
         <nav>
           <Link to='/'>Home</Link>
+          {!isAuth ? <Link to='/signin'>Sign In</Link> : 
+          <>
           <Link to='/addItem'>Add Item</Link>
-          {!isAuth ? <Link to='/signin'>Sign In</Link> : <button onClick={signUserOut}>Sign Out</button>}
+          <button onClick={signUserOut}>Sign Out</button>
+          </>
+          }
         </nav>
         <Routes>
           <Route path="/" element={<Home />}/>
