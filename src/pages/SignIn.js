@@ -5,6 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import {Link as RouterLink} from "react-router-dom";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -12,51 +13,46 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import {auth, provider} from '../firebase-config';
+import {auth, provider, db} from '../firebase-config';
 import {signInWithPopup} from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
+import { doc, getDoc, setDoc } from "firebase/firestore"; 
+
 
 const theme = createTheme();
 
-export default function SignIn({setIsAuth, isAuth}) {
+const USERS = 'users';
+
+export default function SignIn(props) {
   let navigate = useNavigate();
 
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider).then((result) => {
-      localStorage.setItem('isAuth', true);
-      console.log('isauth');
-      setIsAuth(true);
-      navigate('/');
+      props.signUserUp(result.user.displayName, result.user.email);
+    })
+    localStorage.setItem('isAuth', true);
+    console.log('isauth');
+    props.setIsAuth(true);
+    navigate('/');
+  };
+
+  const signIn = (event) => {
+    event.preventDefault();
+    const userDocRef = doc(db, USERS, event.target.userName.value);
+    getDoc(userDocRef).then((userDocSnap) => {
+      if(userDocSnap.exists() && userDocSnap.data().password === event.target.password.value){
+        localStorage.setItem('isAuth', true);
+        console.log('isauth');
+        props.setIsAuth(true);
+        navigate('/');
+      }
+      else
+        console.log('username or password are not correct');
     })
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    const requestOptions = {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: data.get("email"),
-        password: data.get("password"),
-      }),
-    };
-    let response = await fetch("/api", requestOptions);
-    //response = await response.json();
-
-    //this.setState({ postId: data.id });
-  };
-
   useEffect(() => {
-    if(isAuth) navigate('/');
+    if(props.isAuth) navigate('/');
   },[]);
   return (
     <ThemeProvider theme={theme}>
@@ -78,7 +74,7 @@ export default function SignIn({setIsAuth, isAuth}) {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={signIn}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -86,10 +82,10 @@ export default function SignIn({setIsAuth, isAuth}) {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="User Name"
+              name="userName"
+              autoComplete="username"
               autoFocus
             />
             <TextField
@@ -102,10 +98,6 @@ export default function SignIn({setIsAuth, isAuth}) {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -116,28 +108,27 @@ export default function SignIn({setIsAuth, isAuth}) {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+                <RouterLink to='#'>
+                  <Link variant="body2">
+                    Forgot password?
+                  </Link>
+                </RouterLink>
               </Grid>
               <Grid item>
-                <Link
-                  href="#"
-                  variant="body2"
-                  onClick={() => {
-                    sessionStorage.setItem("signup", 1);
-                    window.location.reload();
-                  }}
-                >
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <RouterLink to='/signUp'>
+                  <Link variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </RouterLink>
               </Grid>
             </Grid>
+            <button className="signin-with-google-btn" onClick={signInWithGoogle}>Sign in with google</button>
           </Box>
 
         </Box>
+        
       </Container>
-          <button className="signin-with-google-btn" onClick={signInWithGoogle}>Sign in with google</button>
+          
     </ThemeProvider>
   );
 }
