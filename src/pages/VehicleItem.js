@@ -15,7 +15,7 @@ const MediaCard = (data, deleteVehicle) => {
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
-        height="240"
+        height="140"
         image={data.imagesUrls[0]}
         alt=""
       />
