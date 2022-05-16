@@ -78,7 +78,6 @@ function App() {
           <Route path="/signUp" element={<SignUp setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth}/>}/>
         </Routes>
       </Router>
-      <footer className="footer"><p>© Copyrights: Natan Ytzhaki & Yair Biber</p></footer>
     </div>
   );
 }

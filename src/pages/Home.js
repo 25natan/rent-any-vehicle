@@ -30,9 +30,9 @@ const Home = props => {
       };
     return (
         <div className='homePage'>
-            <Grid container spacing={2}>
-            {vehiclesList.map(vehicle => vehicle.type && <Grid item xs={4}><VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/></Grid> )}
-            </Grid> 
+                <Grid container sx={{ m: 3 }} spacing={2}>
+                {vehiclesList.map(vehicle => vehicle.type && <Grid justifyContent="center" item xs={6} md={4} lg={3}><VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/></Grid> )}
+                </Grid> 
         </div>
     );
 };
