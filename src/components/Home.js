@@ -4,8 +4,7 @@ import {db} from '../firebase-config';
 import VehicleItem from './VehicleItem';
 import { useNavigate } from 'react-router-dom';
 import { Grid } from '@mui/material';
-import Filters from './Filters';
-import { display } from '@mui/system';
+import Search from './Search';
 
 const Home = props => {
     let navigate = useNavigate();
@@ -54,7 +53,7 @@ const Home = props => {
     return (
         <div className='homePage'>
             <div id='mobile-search-side-menu' className='mobile-search-side-menu fa fa-search' onClick={()=> setToDisplaySideMenu(!toDisplaySideMenu)}></div>
-            <Filters  setVehiclesToDisplay={setVehiclesToDisplay} setNoResults={setNoResults} className={toDisplaySideMenu ? '' : 'hide'}/>
+            <Search  setVehiclesToDisplay={setVehiclesToDisplay} setNoResults={setNoResults} className={toDisplaySideMenu ? '' : 'hide'}/>
             <Grid container sx={{ m: 3 }} spacing={2}>
                 {isLoading && <div className='loading'>
                 <div id="load">
@@ -67,7 +66,7 @@ const Home = props => {
                     <div>L</div>
                     </div>
             </div>}
-            {vehiclesToDisplay?.map(vehicle => <Grid justifyContent="center" key={vehicle.id} item xs={6} md={4} lg={3}><VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/></Grid> )}
+            {vehiclesToDisplay?.map(vehicle => <Grid justifyContent="center" key={vehicle.id} item xs={6} md={4} lg={3}><VehicleItem data={vehicle}  key={vehicle.id} deleteVehicle={deleteVehicle}/></Grid> )}
             {noResults && <div className='empty-results'> <h2>Sorry.... We couldn't find any matches to your search </h2></div>}
             </Grid> 
         </div>

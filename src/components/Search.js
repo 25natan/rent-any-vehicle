@@ -8,7 +8,7 @@ import { searchByDistance } from '../searchByDistance';
 
 const animatedComponents = makeAnimated();
 
-const Filters = ({setVehiclesToDisplay, setNoResults, className}) => {
+const Search = ({setVehiclesToDisplay, setNoResults, className}) => {
     const [types, setTypes] = useState(null);
     const [location, setLocation] = useState(null);
     const [minPrice, setMinPrice] = useState(0);
@@ -33,7 +33,7 @@ const Filters = ({setVehiclesToDisplay, setNoResults, className}) => {
     };
 
     return (
-        <div id='filters' className={`filters ${className}`}>
+        <div id='search' className={`search ${className}`}>
             <h1>Search Properties</h1>
             <span className='vehicle-types'><h4>Vehicle Type</h4>
                 <Select 
@@ -67,4 +67,4 @@ const Filters = ({setVehiclesToDisplay, setNoResults, className}) => {
     );
 };
 
-export default Filters;
+export default Search;

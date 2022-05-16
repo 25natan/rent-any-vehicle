@@ -101,23 +101,23 @@ nav a {
   display: none;
 }
 
-.filters {
+.search {
   background: aliceblue;
   max-width: 259px;
   height: 100vh;
   padding: 23px 33px;
 }
-.filters span.price {
+.search span.price {
   font-size: 12px;
 }
 
-.filters h4 {
+.search h4 {
   margin-top: 20px;
   margin-bottom: 8px;
   font-size: 16px;
 }
 
-.filters button.search-btn {
+.search button.search-btn {
   margin: 21px;
 }
 
@@ -126,10 +126,10 @@ nav a {
     display: unset;
     z-index: 2;
   }
-  .filters.hide{
+  .search.hide{
     display: none;
   }
-  .filters{
+  .search{
     display: unset;
     position: absolute;
     z-index: 1;

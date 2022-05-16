@@ -12,7 +12,7 @@ import Home from "./components/Home";
 import { useEffect, useState } from "react";
 import {signOut} from 'firebase/auth';
 import { auth, db } from "./firebase-config";
-import {setDoc, doc} from "firebase/firestore";
+import {addDoc, doc} from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 function App() {
@@ -43,7 +43,7 @@ function App() {
   }, []);
 
   const signUserUp = (userName, password) => {
-      setDoc(doc(db, "users", userName),
+      addDoc(doc(db, "users", userName),
         {
           userName: userName,
           password: password

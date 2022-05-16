@@ -38,7 +38,6 @@ const MediaCard = ({data, deleteVehicle, userName}) => {
 
 
 const VehicleItem = ({data, deleteVehicle, userName}) => {
-    console.log('data', data);
     return MediaCard({data, deleteVehicle, userName});
 };
 
