@@ -63,16 +63,17 @@ function App() {
     <div className="App">
       <Router>
         <nav>
-          {!isAuth && <Link to='/signin'>Sign In</Link>}
-           { isAuth && <>
+          {!isAuth ? <Link to='/signin'>Sign In</Link> :
+          <>
           <Link to='/addItem'>Add Vehicle</Link>
           <Link to='#' onClick={signUserOut}>Sign Out</Link>
           <Link to='/'>Home</Link>
-            </>}
+            </>
+        }
         </nav>
         <Routes>
           <Route path="/" element={<Home isAuth={isAuth}/>}/>
-          <Route path="/addItem" element={<AddItem isAuth={isAuth} />}/>
+          <Route path="/addItem" element={<AddItem isAuth={isAuth} userName={userName}/>}/>
           <Route path="/signIn" element={<SignIn setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth}/>}/>
           <Route path="/signUp" element={<SignUp setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth}/>}/>
         </Routes>

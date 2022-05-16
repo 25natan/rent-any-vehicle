@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { getDocs, collection, doc, deleteDoc } from 'firebase/firestore';
 import {db} from '../firebase-config';
 import VehicleItem from './VehicleItem';
-import { v4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
-import GalleryReact from './TabMenu/GalleryReact';
 
 const Home = props => {
     let navigate = useNavigate();
@@ -35,8 +32,7 @@ const Home = props => {
       };
     return (
         <div className='homePage'>
-            <GalleryReact allVehicles={vehiclesList}/>
-            {/* {vehiclesList.map(vehicle => vehicle.type && <VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/> )} */}
+            {vehiclesList.map(vehicle => vehicle.type && <VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/> )}
         </div>
     );
 };

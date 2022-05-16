@@ -41,7 +41,7 @@ export default function AddItem({isAuth, userName}) {
       const imagesRef = ref(storage, `images/${folderUniqueId}`);
       const imagesList = await listAll(imagesRef);
       const imagesItemUrls = await Promise.all(imagesList.items.map(async item => {return await getDownloadURL(item)}));
-      await addDoc(vehiclesCollectionRef, {type, price, desc, imagesUrls: imagesItemUrls, renter: {name: userName, id: auth.currentUser.uid}});
+      await addDoc(vehiclesCollectionRef, {type, price, desc, imagesUrls: imagesItemUrls, renter: userName});
       alert('Item Upladed!');
     } catch (e) {
       console.log(e);
