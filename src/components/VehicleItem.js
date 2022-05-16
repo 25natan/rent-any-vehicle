@@ -29,7 +29,7 @@ const MediaCard = ({data, deleteVehicle, userName}) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">{data.price} $</Button>
+        <Typography size="small">{data.price} $</Typography>
         <Button size="small">Description</Button>
       </CardActions>
     </Card>

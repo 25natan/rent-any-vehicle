@@ -16,21 +16,28 @@ const Home = props => {
 
     useEffect(() => {
         if(!props.isAuth)  navigate('/signin');
-        
         const getVehicles = async () => {
             setIsLoading(true);
             const data = await getDocs(vehiclesCollectionRef);
             setVehiclesList(data.docs.map(doc => ({...doc.data(), id: doc.id})));
             setIsLoading(false);
         };
-
         try{
+        const vehiclesFronLocalStorage = localStorage.getItem('vehiclesToDisplay');
+        if(vehiclesFronLocalStorage) {
+            setVehiclesToDisplay(JSON.parse(vehiclesFronLocalStorage)); 
+            return;
+        }
             vehiclesToDisplay.length && getVehicles();
         } catch (e) {
             console.log(e);
             setIsLoading(false);
         }
     }, []);
+
+    useEffect(() => {
+        vehiclesToDisplay.length && localStorage.setItem('vehiclesToDisplay', JSON.stringify(vehiclesToDisplay));
+    }, [vehiclesToDisplay])
 
     const deleteVehicle = async id => {
         try{
