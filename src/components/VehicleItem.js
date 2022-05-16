@@ -15,7 +15,7 @@ const MediaCard = (data, deleteVehicle) => {
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
-        height="240"
+        height="140"
         image={data.imagesUrls[0]}
         alt=""
       />
@@ -40,12 +40,6 @@ const MediaCard = (data, deleteVehicle) => {
 const VehicleItem = ({data, deleteVehicle}) => {
     console.log('data', data);
     return MediaCard(data, deleteVehicle);
-    // return <div className='vehicle-card'>
-    //     <div onClick={()=> deleteVehicle(data.id)}>&#128465;</div>
-    //     <div className='header'>{data.type}</div>
-    //     <img src={data.imagesUrls[0]} alt='' width={'300px'}/>
-    //     <div>price: {data.price}</div>
-    // </div>
 };
 
 VehicleItem.propTypes = {

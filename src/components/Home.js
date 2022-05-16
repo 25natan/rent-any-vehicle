@@ -3,10 +3,12 @@ import { getDocs, collection, doc, deleteDoc } from 'firebase/firestore';
 import {db} from '../firebase-config';
 import VehicleItem from './VehicleItem';
 import { useNavigate } from 'react-router-dom';
+import Filters from './Filters';
 
 const Home = props => {
     let navigate = useNavigate();
     const [vehiclesList, setVehiclesList] = useState([]);
+    const [vehiclesToDisplay, setVehiclesToDisplay] = useState([]);
     const vehiclesCollectionRef = collection(db, "vehicles");
 
     useEffect(() => {
@@ -29,7 +31,8 @@ const Home = props => {
       };
     return (
         <div className='homePage'>
-            {vehiclesList.map(vehicle => vehicle.type && <VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/> )}
+            <Filters vehiclesList={vehiclesList} setVehiclesToDisplay={setVehiclesToDisplay}/>
+            {vehiclesToDisplay.map(vehicle => vehicle.type && <VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/> )}
         </div>
     );
 };

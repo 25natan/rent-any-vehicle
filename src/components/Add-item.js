@@ -20,6 +20,8 @@ import { useNavigate } from "react-router-dom";
 import { auth, db, storage } from "../firebase-config";
 import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
 import {v4} from 'uuid';
+import {vihecleTypes} from '../constants';
+
 const theme = createTheme();
 
 export default function AddItem({isAuth, userName}) {
@@ -120,28 +122,3 @@ export default function AddItem({isAuth, userName}) {
     </ThemeProvider>
   );
 }
-const vihecleTypes = [
-  "Private Car",
-  "Van",
-  "Taxi",
-  "Bus",
-  "Ambulance",
-  "Skateboard",
-  "Baby carriage",
-  "Bicycle",
-  "Mountain bike",
-  "Scooter",
-  "Motorcycle",
-  "Fire engine",
-  "Crane",
-  "Forklift",
-  "Tractor",
-  "Recycling truck",
-  "Cement mixer",
-  "Dump truck",
-  "Helicopter",
-  "Airplane",
-  "Carriage",
-  "Rowboat",
-  "Boat",
-];
