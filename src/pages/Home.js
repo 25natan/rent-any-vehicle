@@ -10,16 +10,13 @@ const Home = props => {
     const vehiclesCollectionRef = collection(db, "vehicles");
 
     useEffect(() => {
+        if(!props.isAuth)  navigate('/signin');
         const getVehicles = async () => {
             const data = await getDocs(vehiclesCollectionRef);
            setVehiclesList(data.docs.map(doc => ({...doc.data(), id: doc.id})));
         };
         getVehicles();
     }, []);
-
-    useEffect(() => {
-        if(!props.isAuth)  navigate('/signin');
-      },[]);
 
     const deleteVehicle = async id => {
         try{
