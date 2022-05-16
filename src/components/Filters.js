@@ -4,6 +4,7 @@ import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from '../firebase-config';
+import { searchByDistance } from '../searchByDistance';
 
 const animatedComponents = makeAnimated();
 
@@ -50,7 +51,10 @@ const Filters = ({setVehiclesToDisplay, setNoResults}) => {
                     setMaxPrice(e?.target?.value);}}/>10000
                     <div>{maxPrice} For 1 houre</div>
                 </span>
-            <span className='location'><h4>Location</h4><input  required onChange={e => {
+            <span className='location'><h4>Location</h4>
+            <button onClick={searchByDistance}>Search by distance</button>
+
+            <input  required onChange={e => {
                     setLocation(e?.target?.value);
                 }}/></span>
               <button className='search-btn' onClick={sumbitSearch}>Search For Me</button>
