@@ -104,7 +104,7 @@ export default function AddItem({isAuth, userName}) {
             }}
             sx={{ width: 300 }}
             onChange={(e) => {
-              setPrice(e?.target?.value);
+              setPrice(parseInt(e?.target?.value));
             }}
           />
            <Typography

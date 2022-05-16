@@ -20,9 +20,14 @@ const Filters = ({setVehiclesToDisplay, setNoResults}) => {
             return;
         }
         const vehiclesRef = collection(db, "vehicles");
+        console.log('types',types);
+        console.log('minPrice',minPrice);
+        console.log('maxPrice',maxPrice);
+        console.log('location',location);
         const q = query(vehiclesRef, where("type", "in", types), where("price", ">=", minPrice), where("price", "<=", maxPrice));
         const querySnapshot = await getDocs(q);
         setVehiclesToDisplay(querySnapshot.docs.map(doc => doc.data()));
+        console.log('querySnapshot.docs.map(doc => doc.data())', querySnapshot.docs.map(doc => doc.data()));
         console.log('!querySnapshot.docs.length', !!querySnapshot.docs.length);
         setNoResults(querySnapshot.docs.length > 0 ? false : true);
     };
@@ -43,12 +48,12 @@ const Filters = ({setVehiclesToDisplay, setNoResults}) => {
             </span>
             <span className='price'><h4>From Price</h4>
             0<input type="range" min="1" max="1000" required onChange={e => {
-                    setMinPrice(e?.target?.value);}}/>1000
+                    setMinPrice(parseInt(e?.target?.value));}}/>1000
                     <div>{minPrice} For 1 houre</div>
                 </span>
             <span className='price'><h4>To Price</h4>
-            {minPrice}<input type="range" min={minPrice} max="10000" onChange={e => {
-                    setMaxPrice(e?.target?.value);}}/>10000
+            {minPrice}<input type="range" min={minPrice} max="10000" placeholder={minPrice} onChange={e => {
+                    setMaxPrice(parseInt(e?.target?.value));}}/>10000
                     <div>{maxPrice} For 1 houre</div>
                 </span>
             <span className='location'><h4>Location</h4>

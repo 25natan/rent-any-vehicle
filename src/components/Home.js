@@ -58,7 +58,7 @@ const Home = props => {
                     <div>L</div>
                     </div>
             </div>}
-            {vehiclesToDisplay?.map(vehicle => vehicle.type && <Grid justifyContent="center" key={vehicle.id} item xs={6} md={4} lg={3}><VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/></Grid> )}
+            {vehiclesToDisplay?.map(vehicle => <Grid justifyContent="center" key={vehicle.id} item xs={6} md={4} lg={3}><VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/></Grid> )}
             {noResults && <div className='empty-results'> <h2>Sorry.... We couldn't find any matches to your search </h2></div>}
             </Grid> 
         </div>
