@@ -5,6 +5,7 @@ import VehicleItem from './VehicleItem';
 import { useNavigate } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import Filters from './Filters';
+import { display } from '@mui/system';
 
 const Home = props => {
     let navigate = useNavigate();
@@ -12,6 +13,7 @@ const Home = props => {
     const [vehiclesToDisplay, setVehiclesToDisplay] = useState([]);
     const [noResults, setNoResults] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [toDisplaySideMenu, setToDisplaySideMenu] = useState(false);
     const vehiclesCollectionRef = collection(db, "vehicles");
 
     useEffect(() => {
@@ -51,8 +53,8 @@ const Home = props => {
 
     return (
         <div className='homePage'>
-            <Filters setVehiclesToDisplay={setVehiclesToDisplay} setNoResults={setNoResults}/>
-
+            <div id='mobile-search-side-menu' className='mobile-search-side-menu fa fa-search' onClick={()=> setToDisplaySideMenu(!toDisplaySideMenu)}></div>
+            <Filters  setVehiclesToDisplay={setVehiclesToDisplay} setNoResults={setNoResults} className={toDisplaySideMenu ? '' : 'hide'}/>
             <Grid container sx={{ m: 3 }} spacing={2}>
                 {isLoading && <div className='loading'>
                 <div id="load">

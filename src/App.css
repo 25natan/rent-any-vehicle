@@ -97,10 +97,13 @@ nav a {
 }
 
 
+.mobile-search-side-menu{
+  display: none;
+}
 
 .filters {
   background: aliceblue;
-  max-width: 196px;
+  max-width: 259px;
   height: 100vh;
   padding: 23px 33px;
 }
@@ -117,6 +120,23 @@ nav a {
 .filters button.search-btn {
   margin: 21px;
 }
+
+@media only screen and (max-width: 790px) {
+  .mobile-search-side-menu{
+    display: unset;
+    z-index: 2;
+  }
+  .filters.hide{
+    display: none;
+  }
+  .filters{
+    display: unset;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+  }
+}
+
 .loading {
  font-size: 24px;
 }
