@@ -4,8 +4,10 @@ import { getDocs, collection, doc, deleteDoc } from 'firebase/firestore';
 import {db} from '../firebase-config';
 import VehicleItem from './VehicleItem';
 import { v4 } from 'uuid';
+import { useNavigate } from 'react-router-dom';
 
 const Home = props => {
+    let navigate = useNavigate();
     const [vehiclesList, setVehiclesList] = useState([]);
     const vehiclesCollectionRef = collection(db, "vehicles");
 
@@ -16,6 +18,10 @@ const Home = props => {
         };
         getVehicles();
     }, []);
+
+    useEffect(() => {
+        if(!props.isAuth)  navigate('/signin');
+      },[]);
 
     const deleteVehicle = async id => {
         try{

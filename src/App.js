@@ -17,20 +17,29 @@ import { useNavigate } from "react-router-dom";
 
 function App() {
 
+  const [isAuth, setIsAuth] = useState(false);
+  const [userName, setUserName] = useState(null);
+
   const signUserOut = () => {
     signOut(auth).then(() => {
-      localStorage.setItem('auth', null);
+      setIsAuth(false);
+      setUserName(null);
+      localStorage.clear();
       window.location.pathname = '/signin';
     })
   };
 
   useEffect(() => {
-    localStorage.setItem('isAuth', isAuth);
+    isAuth && localStorage.setItem('isAuth', isAuth);
   }, [isAuth]);
 
   useEffect(() => {
-    setIsAuth(!!localStorage.getItem('isAuth'));
-    console.log('isa',isAuth);
+      userName && localStorage.setItem('userName', userName);
+  }, [userName]);
+
+  useEffect(() => {
+    setIsAuth(localStorage.getItem('isAuth') === 'true');
+    setUserName(localStorage.getItem('userName'));
   }, []);
 
   const signUserUp = (userName, password) => {
@@ -44,7 +53,8 @@ function App() {
         }
       )
       .then(() => {
-        localStorage.setItem('auth', JSON.stringify({userName: userName, password: password}));
+        setIsAuth(true);
+        setUserName(userName);
         window.location.pathname = '/';
       });
   }
@@ -53,19 +63,18 @@ function App() {
     <div className="App">
       <Router>
         <nav>
-          {!localStorage.getItem('auth') ? <Link to='/signin'>Sign In</Link> : 
-          <>
+          {!isAuth && <Link to='/signin'>Sign In</Link>}
+           { isAuth && <>
           <Link to='/addItem'>Add Vehicle</Link>
           <Link to='#' onClick={signUserOut}>Sign Out</Link>
           <Link to='/'>Home</Link>
-          </>
-          }
+            </>}
         </nav>
         <Routes>
-          <Route path="/" element={<Home />}/>
+          <Route path="/" element={<Home isAuth={isAuth}/>}/>
           <Route path="/addItem" element={<AddItem isAuth={isAuth} />}/>
-          <Route path="/signIn" element={<SignIn signUserUp={signUserUp} setIsAuth={setIsAuth}/>}/>
-          <Route path="/signUp" element={<SignUp signUserUp={signUserUp} setIsAuth={setIsAuth}/>}/>
+          <Route path="/signIn" element={<SignIn setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth}/>}/>
+          <Route path="/signUp" element={<SignUp setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth}/>}/>
         </Routes>
       </Router>
       <div className="footer"><p>© Copyrights: Natan Ytzhaki & Yair Biber</p></div>

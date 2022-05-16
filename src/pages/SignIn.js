@@ -5,8 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import {Link as RouterLink} from "react-router-dom";
-import Link from "@mui/material/Link";
+import { Link } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -24,6 +23,8 @@ const theme = createTheme();
 const USERS = 'users';
 
 export default function SignIn(props) {
+  let navigate = useNavigate();
+
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider).then((result) => {
       const [userName, password] = [result.user.displayName, result.user.email];
@@ -31,13 +32,18 @@ export default function SignIn(props) {
     });
   };
 
+  useEffect(() => {
+    if(props.isAuth)  navigate('/home');
+  },[]);
+
   const signIn = (event) => {
     event.preventDefault();
     const [userName, password] = [event.target.userName.value, event.target.password.value];
     const userDocRef = doc(db, USERS, userName);
     getDoc(userDocRef).then((userDocSnap) => {
       if(userDocSnap.exists() && userDocSnap.data().password === event.target.password.value){
-        localStorage.setItem('auth', {userName: userName, password: password});
+        props.setIsAuth(true);
+        props.setUserName(userName);
         window.location.pathname = '/';
       }
       else console.log('username or password are not correct');
@@ -47,6 +53,7 @@ export default function SignIn(props) {
   useEffect(() => {
     if(props.isAuth) navigate('/');
   },[]);
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -101,18 +108,14 @@ export default function SignIn(props) {
             </Button>
             <Grid container>
               <Grid item xs>
-                <RouterLink to='#'>
-                  <Link variant="body2">
+                  <Link href='#'>
                     Forgot password?
                   </Link>
-                </RouterLink>
               </Grid>
               <Grid item>
-                <RouterLink to='/signUp'>
-                  <Link variant="body2">
+                  <Link href='/signUp'>
                     {"Don't have an account? Sign Up"}
                   </Link>
-                </RouterLink>
               </Grid>
             </Grid>
             <button className="signin-with-google-btn" onClick={signInWithGoogle}>Sign in with google</button>

@@ -50,13 +50,14 @@ export default function AddItem({isAuth}) {
   }
 
   useEffect(() => {
-    if(!isAuth)  navigate('/');
+    if(!isAuth)  navigate('/signin');
   },[]);
+  
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs" style={{ marginTop: "100px" }}>
         {/* { <CssBaseline /> */}
-        <Box
+        <Box 
           sx={{
             marginTop: 8,
             display: "flex",
@@ -75,7 +76,6 @@ export default function AddItem({isAuth}) {
           >
             Add Vehicle
           </Typography>
-          <BikeScooterIcon style={{ marginBottom: "10px" }} />
           <Autocomplete
             disablePortal
             id="combo-box-demo"
@@ -92,7 +92,6 @@ export default function AddItem({isAuth}) {
               />
             )}
           />
-          <AttachMoneyIcon style={{ marginBottom: "10px" }} />
           <TextField
             id="outlined-number"
             label="Price (for houre)"
