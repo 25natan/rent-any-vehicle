@@ -4,6 +4,7 @@ import { getDocs, collection, doc, deleteDoc } from 'firebase/firestore';
 import {db} from '../firebase-config';
 import VehicleItem from './VehicleItem';
 import { v4 } from 'uuid';
+import GalleryReact from './TabMenu/GalleryReact';
 
 const Home = props => {
     const [vehiclesList, setVehiclesList] = useState([]);
@@ -28,7 +29,8 @@ const Home = props => {
       };
     return (
         <div className='homePage'>
-            {vehiclesList.map(vehicle => vehicle.type && <VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/> )}
+            <GalleryReact allVehicles={vehiclesList}/>
+            {/* {vehiclesList.map(vehicle => vehicle.type && <VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/> )} */}
         </div>
     );
 };

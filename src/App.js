@@ -56,12 +56,12 @@ function App() {
         </nav>
         <Routes>
           <Route path="/" element={<Home />}/>
-          <Route path="/addItem" element={<AddItem isAuth={isAuth} />}/>
+          <Route path="/addItem" element={<AddItem isAuth={isAuth} userName={userName}/>}/>
           <Route path="/signIn" element={<SignIn signUserUp={signUserUp} setIsAuth={setIsAuth}/>}/>
           <Route path="/signUp" element={<SignUp signUserUp={signUserUp} setIsAuth={setIsAuth}/>}/>
         </Routes>
       </Router>
-      <div className="footer"><p>© Copyrights: Natan Ytzhaki & Yair Biber</p></div>
+      <footer className="footer"><p>© Copyrights: Natan Ytzhaki & Yair Biber</p></footer>
     </div>
   );
 }
