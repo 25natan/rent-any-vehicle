@@ -7,7 +7,7 @@ import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import "./App.css";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
-import AddItem from "./components/Add-item";
+import AddItem from "./components/AddItem";
 import Home from "./components/Home";
 import { useEffect, useState } from "react";
 import {signOut} from 'firebase/auth';

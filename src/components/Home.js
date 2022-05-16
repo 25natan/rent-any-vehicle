@@ -32,7 +32,7 @@ const Home = props => {
     return (
         <div className='homePage'>
             <Filters vehiclesList={vehiclesList} setVehiclesToDisplay={setVehiclesToDisplay}/>
-            {vehiclesToDisplay.map(vehicle => vehicle.type && <VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/> )}
+            {vehiclesToDisplay.map(vehicle => vehicle.type && <VehicleItem data={vehicle} deleteVehicle={deleteVehicle} userName={props.userName} key={vehicle.id}/> )}
         </div>
     );
 };
