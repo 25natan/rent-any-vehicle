@@ -20,6 +20,9 @@ import { useNavigate } from "react-router-dom";
 import { auth, db, storage } from "../firebase-config";
 import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
 import {v4} from 'uuid';
+import {vihecleTypes} from '../constants';
+import { TextareaAutosize } from "@mui/material";
+
 const theme = createTheme();
 
 export default function AddItem({isAuth, userName}) {
@@ -101,47 +104,28 @@ export default function AddItem({isAuth, userName}) {
             }}
             sx={{ width: 300 }}
             onChange={(e) => {
-              console.log(e?.target?.value);
               setPrice(e?.target?.value);
             }}
           />
+           <Typography
+            style={{ marginTop: "12px"}}
+          >
+          Description
+          </Typography>
+        <TextareaAutosize
+            aria-label="Description"
+            minRows={4}
+            placeholder="Add some words..."
+            style={{ width: 292 , fontFamily: 'ariel'}}
+            onChange={(e) => {
+              setDesc(e?.target?.value);
+            }}
+          />
           <PhotoCamera sx={{ margin: "40px 0 20px 0" }} />
-          {/* Add some images */}
           <ImageUploader images={images} setImages={setImages} />{" "}
-          {/* <UploadButtons
-              onChange={(e) => {
-                setImages(e?.target?.value);
-                console.log(e?.target?.value);
-              }}
-            /> */}
         </Box>
       </Container>
       <button onClick={addVehiclesToDb}>Submit</button>
     </ThemeProvider>
   );
 }
-const vihecleTypes = [
-  "Private Car",
-  "Van",
-  "Taxi",
-  "Bus",
-  "Ambulance",
-  "Skateboard",
-  "Baby carriage",
-  "Bicycle",
-  "Mountain bike",
-  "Scooter",
-  "Motorcycle",
-  "Fire engine",
-  "Crane",
-  "Forklift",
-  "Tractor",
-  "Recycling truck",
-  "Cement mixer",
-  "Dump truck",
-  "Helicopter",
-  "Airplane",
-  "Carriage",
-  "Rowboat",
-  "Boat",
-];
