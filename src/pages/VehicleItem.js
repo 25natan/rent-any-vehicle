@@ -10,7 +10,7 @@ import { storage, db } from '../firebase-config';
 import {ref, listAll} from 'firebase/storage';
 import { deleteDoc, doc } from 'firebase/firestore';
 
-const MediaCard = ({data, deleteVehicle}) => {
+const MediaCard = (data, deleteVehicle) => {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -39,13 +39,13 @@ const MediaCard = ({data, deleteVehicle}) => {
 
 const VehicleItem = ({data, deleteVehicle}) => {
     console.log('data', data);
-    // return MediaCard(data);
-    return <div className='vehicle-card'>
-        <div onClick={()=> deleteVehicle(data.id)}>&#128465;</div>
-        <div className='header'>{data.type}</div>
-        <img src={data.imagesUrls[0]} alt='' width={'300px'}/>
-        <div>price: {data.price}</div>
-    </div>
+    return MediaCard(data, deleteVehicle);
+    // return <div className='vehicle-card'>
+    //     <div onClick={()=> deleteVehicle(data.id)}>&#128465;</div>
+    //     <div className='header'>{data.type}</div>
+    //     <img src={data.imagesUrls[0]} alt='' width={'300px'}/>
+    //     <div>price: {data.price}</div>
+    // </div>
 };
 
 VehicleItem.propTypes = {

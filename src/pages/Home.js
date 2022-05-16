@@ -5,6 +5,7 @@ import {db} from '../firebase-config';
 import VehicleItem from './VehicleItem';
 import { v4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
+import GalleryReact from './TabMenu/GalleryReact';
 
 const Home = props => {
     let navigate = useNavigate();
@@ -34,7 +35,8 @@ const Home = props => {
       };
     return (
         <div className='homePage'>
-            {vehiclesList.map(vehicle => vehicle.type && <VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/> )}
+            <GalleryReact allVehicles={vehiclesList}/>
+            {/* {vehiclesList.map(vehicle => vehicle.type && <VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/> )} */}
         </div>
     );
 };

@@ -22,7 +22,7 @@ import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
 import {v4} from 'uuid';
 const theme = createTheme();
 
-export default function AddItem({isAuth}) {
+export default function AddItem({isAuth, userName}) {
   const [type, setType] = useState(null);
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState(null);
@@ -41,7 +41,7 @@ export default function AddItem({isAuth}) {
       const imagesRef = ref(storage, `images/${folderUniqueId}`);
       const imagesList = await listAll(imagesRef);
       const imagesItemUrls = await Promise.all(imagesList.items.map(async item => {return await getDownloadURL(item)}));
-      await addDoc(vehiclesCollectionRef, {type, price, desc, imagesUrls: imagesItemUrls, renter: {name: auth.currentUser.displayName, id: auth.currentUser.uid}});
+      await addDoc(vehiclesCollectionRef, {type, price, desc, imagesUrls: imagesItemUrls, renter: {name: userName, id: auth.currentUser.uid}});
       alert('Item Upladed!');
     } catch (e) {
       console.log(e);
