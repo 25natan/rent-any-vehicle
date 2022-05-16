@@ -122,6 +122,7 @@ export default function AddItem({isAuth}) {
   );
 }
 const vihecleTypes = [
+  "Private Car",
   "Van",
   "Taxi",
   "Bus",

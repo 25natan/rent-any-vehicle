@@ -19,15 +19,16 @@ const Home = props => {
 
     const deleteVehicle = async id => {
         try{
-        const vehicleDoc = doc(db, 'vehicles', id)
-        await deleteDoc(vehicleDoc)
+        const vehicleDoc = doc(db, 'vehicles', id);
+        await deleteDoc(vehicleDoc);
+        setVehiclesList(vehiclesList.filter(vehicle => vehicle.id !== id));
         } catch(e){
             console.log(e);
         }
       };
     return (
         <div className='homePage'>
-            {vehiclesList.map(vehicle => vehicle.type && <VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.type + v4()}/> )}
+            {vehiclesList.map(vehicle => vehicle.type && <VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/> )}
         </div>
     );
 };
