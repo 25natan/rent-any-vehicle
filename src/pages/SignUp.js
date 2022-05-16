@@ -23,10 +23,6 @@ export default function SignUp(props) {
   const signUp = (event) => {
     event.preventDefault();
     props.signUserUp(event.target.firstName.value + ' ' + event.target.lastName.value, event.target.password.value);
-    localStorage.setItem('isAuth', true);
-    console.log('isauth');
-    props.setIsAuth(true);
-    navigate('/');
   }
 
   return (

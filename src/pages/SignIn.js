@@ -24,30 +24,23 @@ const theme = createTheme();
 const USERS = 'users';
 
 export default function SignIn(props) {
-  let navigate = useNavigate();
-
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider).then((result) => {
-      props.signUserUp(result.user.displayName, result.user.email);
-    })
-    localStorage.setItem('isAuth', true);
-    console.log('isauth');
-    props.setIsAuth(true);
-    navigate('/');
+      const [userName, password] = [result.user.displayName, result.user.email];
+      props.signUserUp(userName, password);
+    });
   };
 
   const signIn = (event) => {
     event.preventDefault();
-    const userDocRef = doc(db, USERS, event.target.userName.value);
+    const [userName, password] = [event.target.userName.value, event.target.password.value];
+    const userDocRef = doc(db, USERS, userName);
     getDoc(userDocRef).then((userDocSnap) => {
       if(userDocSnap.exists() && userDocSnap.data().password === event.target.password.value){
-        localStorage.setItem('isAuth', true);
-        console.log('isauth');
-        props.setIsAuth(true);
-        navigate('/');
+        localStorage.setItem('auth', {userName: userName, password: password});
+        window.location.pathname = '/';
       }
-      else
-        console.log('username or password are not correct');
+      else console.log('username or password are not correct');
     })
   };
 
