@@ -10,15 +10,26 @@ const Home = props => {
     let navigate = useNavigate();
     const [vehiclesList, setVehiclesList] = useState([]);
     const [vehiclesToDisplay, setVehiclesToDisplay] = useState([]);
+    const [noResults, setNoResults] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const vehiclesCollectionRef = collection(db, "vehicles");
 
     useEffect(() => {
         if(!props.isAuth)  navigate('/signin');
+        
         const getVehicles = async () => {
+            setIsLoading(true);
             const data = await getDocs(vehiclesCollectionRef);
-           setVehiclesList(data.docs.map(doc => ({...doc.data(), id: doc.id})));
+            setVehiclesList(data.docs.map(doc => ({...doc.data(), id: doc.id})));
+            setIsLoading(false);
         };
-        getVehicles();
+
+        try{
+            vehiclesToDisplay.length && getVehicles();
+        } catch (e) {
+            console.log(e);
+            setIsLoading(false);
+        }
     }, []);
 
     const deleteVehicle = async id => {
@@ -29,12 +40,25 @@ const Home = props => {
         } catch(e){
             console.log(e);
         }
-      };
+    };
+
     return (
         <div className='homePage'>
-            <Filters vehiclesList={vehiclesList} setVehiclesToDisplay={setVehiclesToDisplay}/>
+            <Filters setVehiclesToDisplay={setVehiclesToDisplay} setNoResults={setNoResults}/>
             <Grid container sx={{ m: 3 }} spacing={2}>
-            {vehiclesList.map(vehicle => vehicle.type && <Grid justifyContent="center" item xs={6} md={4} lg={3}><VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/></Grid> )}
+                {isLoading && <div className='loading'>
+                <div id="load">
+                    <div>G</div>
+                    <div>N</div>
+                    <div>I</div>
+                    <div>D</div>
+                    <div>A</div>
+                    <div>O</div>
+                    <div>L</div>
+                    </div>
+            </div>}
+            {vehiclesToDisplay?.map(vehicle => vehicle.type && <Grid justifyContent="center" key={vehicle.id} item xs={6} md={4} lg={3}><VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/></Grid> )}
+            {noResults && <div className='empty-results'> <h2>Sorry.... We couldn't find any matches to your search </h2></div>}
             </Grid> 
         </div>
     );
