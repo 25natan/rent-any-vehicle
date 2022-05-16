@@ -3,7 +3,7 @@ import ImageUploading from "react-images-uploading";
 import Button from "@mui/material/Button";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { padding } from "@mui/system";
+
 
 const ImageUploader = (props) => {
   const { images, setImages } = props;

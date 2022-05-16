@@ -9,7 +9,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import AddItem from "./pages/Add-item";
 import Home from "./pages/Home";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {signOut} from 'firebase/auth';
 import { auth, db } from "./firebase-config";
 import {setDoc, doc} from "firebase/firestore";
@@ -23,6 +23,15 @@ function App() {
       window.location.pathname = '/signin';
     })
   };
+
+  useEffect(() => {
+    localStorage.setItem('isAuth', isAuth);
+  }, [isAuth]);
+
+  useEffect(() => {
+    setIsAuth(!!localStorage.getItem('isAuth'));
+    console.log('isa',isAuth);
+  }, []);
 
   const signUserUp = (userName, password) => {
       setDoc(doc(db, "users", userName),
@@ -54,9 +63,9 @@ function App() {
         </nav>
         <Routes>
           <Route path="/" element={<Home />}/>
-          <Route path="/addItem" element={<AddItem />}/>
-          <Route path="/signIn" element={<SignIn signUserUp={signUserUp} />}/>
-          <Route path="/signUp" element={<SignUp signUserUp={signUserUp} />}/>
+          <Route path="/addItem" element={<AddItem isAuth={isAuth} />}/>
+          <Route path="/signIn" element={<SignIn signUserUp={signUserUp} setIsAuth={setIsAuth}/>}/>
+          <Route path="/signUp" element={<SignUp signUserUp={signUserUp} setIsAuth={setIsAuth}/>}/>
         </Routes>
       </Router>
       <div className="footer"><p>© Copyrights: Natan Ytzhaki & Yair Biber</p></div>

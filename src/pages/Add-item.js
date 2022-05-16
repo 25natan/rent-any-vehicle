@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import UploadButtons from "../UploadButton";
@@ -6,7 +7,6 @@ import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Icon from "@mui/material/Icon";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import BikeScooterIcon from "@mui/icons-material/BikeScooter";
@@ -15,24 +15,43 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import ImageUploader from "../ImageUpload";
 import { useState } from "react";
-import { margin } from "@mui/system";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "../firebase-config";
-
+import { auth, db, storage } from "../firebase-config";
+import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
+import {v4} from 'uuid';
 const theme = createTheme();
 
-export default function AddItem() {
+export default function AddItem({isAuth}) {
   const [type, setType] = useState(null);
+  const [desc, setDesc] = useState('');
   const [price, setPrice] = useState(null);
   const [images, setImages] = useState([]);
 
   let navigate = useNavigate();
   const vehiclesCollectionRef = collection(db, "vehicles");
+
   const addVehiclesToDb = async () => {
-    await addDoc(vehiclesCollectionRef, {type, price, renter: {name: auth.currentUser.displayName, id: auth.currentUser.uid}});
+    try{
+      const folderUniqueId = v4();
+      await Promise.all(images.map(async img => {
+        const imageRef = ref(storage, `images/${folderUniqueId}/${img?.file?.name}`);
+        await uploadBytes(imageRef, img.file);
+      }));
+      const imagesRef = ref(storage, `images/${folderUniqueId}`);
+      const imagesList = await listAll(imagesRef);
+      const imagesItemUrls = await Promise.all(imagesList.items.map(async item => {return await getDownloadURL(item)}));
+      await addDoc(vehiclesCollectionRef, {type, price, desc, imagesUrls: imagesItemUrls, renter: {name: auth.currentUser.displayName, id: auth.currentUser.uid}});
+      alert('Item Upladed!');
+    } catch (e) {
+      console.log(e);
+    }
     navigate('/');
   }
+
+  useEffect(() => {
+    if(!isAuth)  navigate('/');
+  },[]);
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs" style={{ marginTop: "100px" }}>
@@ -103,6 +122,7 @@ export default function AddItem() {
   );
 }
 const vihecleTypes = [
+  "Private Car",
   "Van",
   "Taxi",
   "Bus",
