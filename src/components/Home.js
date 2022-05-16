@@ -5,6 +5,7 @@ import VehicleItem from './VehicleItem';
 import { useNavigate } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import Filters from './Filters';
+import { searchByDistance, updateDoc } from '../searchByDistance';
 
 const Home = props => {
     let navigate = useNavigate();
@@ -32,7 +33,7 @@ const Home = props => {
       };
     return (
         <div className='homePage'>
-            <Filters vehiclesList={vehiclesList} setVehiclesToDisplay={setVehiclesToDisplay}/>
+            <button onClick={searchByDistance}>update</button>
             <Grid container sx={{ m: 3 }} spacing={2}>
             {vehiclesList.map(vehicle => vehicle.type && <Grid justifyContent="center" item xs={6} md={4} lg={3}><VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.id}/></Grid> )}
             </Grid> 
