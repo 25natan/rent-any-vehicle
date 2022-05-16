@@ -25,12 +25,14 @@ function App() {
       window.location.pathname = 'signin';
     })
   };
+
   useEffect(() => {
     localStorage.setItem('isAuth', isAuth);
   }, [isAuth]);
 
   useEffect(() => {
-    setIsAuth(localStorage.getItem('isAuth'));
+    setIsAuth(!!localStorage.getItem('isAuth'));
+    console.log('isa',isAuth);
   }, []);
 
   const signUserUp = (userName, password) => {
@@ -54,7 +56,7 @@ function App() {
         </nav>
         <Routes>
           <Route path="/" element={<Home />}/>
-          <Route path="/addItem" element={<AddItem />}/>
+          <Route path="/addItem" element={<AddItem isAuth={isAuth} />}/>
           <Route path="/signIn" element={<SignIn signUserUp={signUserUp} setIsAuth={setIsAuth}/>}/>
           <Route path="/signUp" element={<SignUp signUserUp={signUserUp} setIsAuth={setIsAuth}/>}/>
         </Routes>

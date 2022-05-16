@@ -6,10 +6,11 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { storage } from '../firebase-config';
+import { storage, db } from '../firebase-config';
 import {ref, listAll} from 'firebase/storage';
+import { deleteDoc, doc } from 'firebase/firestore';
 
-const MediaCard = (data) => {
+const MediaCard = ({data, deleteVehicle}) => {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -18,6 +19,7 @@ const MediaCard = (data) => {
         image={data.imagesUrls[0]}
         alt=""
       />
+      <Button className='delete-vehicle' onClick={() => {deleteVehicle(data.id)}}>&#128465;</Button>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {data.type}
@@ -33,20 +35,17 @@ const MediaCard = (data) => {
     </Card>
   );
 }
-const getImages = async imageFolderRef => {
-    const imagesRef = ref(storage, `images/${imageFolderRef}`);
-    console.log('imagesRef', imagesRef);
-    const imagesList = await listAll(imagesRef);
-    console.log('!imagesList', imagesList);
-};
 
-const VehicleItem = ({data}) => {
-    // const images = JSON.parse(data?.images);
-    // data.mainImg = images[0]["data_url"];
-//   const images = await getImages(data.imageFolderRef)
 
-console.log('data', data);
-    return MediaCard(data);
+const VehicleItem = ({data, deleteVehicle}) => {
+    console.log('data', data);
+    // return MediaCard(data);
+    return <div className='vehicle-card'>
+        <div onClick={()=> deleteVehicle(data.id)}>&#128465;</div>
+        <div className='header'>{data.type}</div>
+        <img src={data.imagesUrls[0]} alt='' width={'300px'}/>
+        <div>price: {data.price}</div>
+    </div>
 };
 
 VehicleItem.propTypes = {

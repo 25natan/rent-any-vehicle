@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import ImageUploader from "../ImageUpload";
 import { useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { auth, db, storage } from "../firebase-config";
 import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
@@ -30,6 +30,7 @@ export default function AddItem({isAuth}) {
 
   let navigate = useNavigate();
   const vehiclesCollectionRef = collection(db, "vehicles");
+
   const addVehiclesToDb = async () => {
     try{
       const folderUniqueId = v4();
@@ -47,6 +48,7 @@ export default function AddItem({isAuth}) {
     }
     navigate('/');
   }
+
   useEffect(() => {
     if(!isAuth)  navigate('/');
   },[]);

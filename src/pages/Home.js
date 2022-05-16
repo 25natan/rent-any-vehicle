@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getDocs, collection, doc } from 'firebase/firestore';
+import { getDocs, collection, doc, deleteDoc } from 'firebase/firestore';
 import {db} from '../firebase-config';
 import VehicleItem from './VehicleItem';
 import { v4 } from 'uuid';
@@ -17,9 +17,17 @@ const Home = props => {
         getVehicles();
     }, []);
 
+    const deleteVehicle = async id => {
+        try{
+        const vehicleDoc = doc(db, 'vehicles', id)
+        await deleteDoc(vehicleDoc)
+        } catch(e){
+            console.log(e);
+        }
+      };
     return (
         <div className='homePage'>
-            {vehiclesList.map(vehicle => vehicle.type && <VehicleItem data={vehicle} key={vehicle.type + v4()}/> )}
+            {vehiclesList.map(vehicle => vehicle.type && <VehicleItem data={vehicle} deleteVehicle={deleteVehicle} key={vehicle.type + v4()}/> )}
         </div>
     );
 };
