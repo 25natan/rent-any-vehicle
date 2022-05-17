@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {auth, provider, db} from '../firebase-config';
 import {signInWithPopup} from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
-import { doc, getDoc, setDoc } from "firebase/firestore"; 
+import { doc, getDoc, addDoc } from "firebase/firestore"; 
 
 
 const theme = createTheme();

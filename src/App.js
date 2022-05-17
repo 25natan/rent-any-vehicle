@@ -12,8 +12,8 @@ import Home from "./components/Home";
 import { useEffect, useState } from "react";
 import {signOut} from 'firebase/auth';
 import { auth, db } from "./firebase-config";
-import {setDoc, doc} from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import {addDoc, doc} from "firebase/firestore";
+import Mailbox from "./components/Mailbox";
 
 function App() {
 
@@ -43,7 +43,7 @@ function App() {
   }, []);
 
   const signUserUp = (userName, password) => {
-      setDoc(doc(db, "users", userName),
+      addDoc(doc(db, "users", userName),
         {
           userName: userName,
           password: password
@@ -65,10 +65,11 @@ function App() {
         <nav>
           {!isAuth ? <Link to='/signin'>Sign In</Link> :
           <>
+          <Link to='/'>Home</Link>
           <Link to='/addItem'>Add Vehicle</Link>
           <Link to='#' onClick={signUserOut}>Sign Out</Link>
-          <Link to='/'>Home</Link>
-            </>
+          <div className=" mailbox-nav-btn"><Link to='messages'><i className="fa fa-envelope" aria-hidden="true"></i></Link></div>
+          </>
         }
         </nav>
         <Routes>
@@ -76,6 +77,7 @@ function App() {
           <Route path="/addItem" element={<AddItem isAuth={isAuth} userName={userName}/>}/>
           <Route path="/signIn" element={<SignIn setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth}/>}/>
           <Route path="/signUp" element={<SignUp setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth}/>}/>
+          <Route path="/messages" element={<Mailbox isAuth={isAuth} userName={userName} />}/>
         </Routes>
       </Router>
     </div>

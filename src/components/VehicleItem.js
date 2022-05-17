@@ -9,10 +9,11 @@ import Typography from '@mui/material/Typography';
 import { storage, db } from '../firebase-config';
 import {ref, listAll} from 'firebase/storage';
 import { deleteDoc, doc } from 'firebase/firestore';
+import VehicleItemModal from './VehicleItemModal';
 
 const MediaCard = ({data, deleteVehicle, userName}) => {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 }} >
       <CardMedia
         component="img"
         height="140"
@@ -24,22 +25,20 @@ const MediaCard = ({data, deleteVehicle, userName}) => {
         <Typography gutterBottom variant="h5" component="div">
           {data.type}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-    {data.desc}
-        </Typography>
+        <div className='short-desc'>{data.desc}</div>
       </CardContent>
       <CardActions>
-        <Button size="small">{data.price} $</Button>
-        <Button size="small">Description</Button>
+        <div className='price'>{data.price} $</div>
+        {VehicleItemModal(data)}
       </CardActions>
     </Card>
   );
 }
 
-
 const VehicleItem = ({data, deleteVehicle, userName}) => {
-    console.log('data', data);
-    return MediaCard({data, deleteVehicle, userName});
+    return <div className='vehicle-card' data-bs-toggle="modal" href={`#exampleModalToggle${data.id}`} role="button">{
+    MediaCard({data, deleteVehicle, userName})}
+    </div>; 
 };
 
 VehicleItem.propTypes = {
