@@ -9,10 +9,11 @@ import Typography from '@mui/material/Typography';
 import { storage, db } from '../firebase-config';
 import {ref, listAll} from 'firebase/storage';
 import { deleteDoc, doc } from 'firebase/firestore';
+import VehicleItemModal from './VehicleItemModal';
 
 const MediaCard = ({data, deleteVehicle, userName}) => {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 }} >
       <CardMedia
         component="img"
         height="140"
@@ -30,15 +31,17 @@ const MediaCard = ({data, deleteVehicle, userName}) => {
       </CardContent>
       <CardActions>
         <Typography size="small">{data.price} $</Typography>
-        <Button size="small">Description</Button>
+        {VehicleItemModal(data)}
+        {/* <Button size="small"></Button> */}
       </CardActions>
     </Card>
   );
 }
 
-
 const VehicleItem = ({data, deleteVehicle, userName}) => {
-    return MediaCard({data, deleteVehicle, userName});
+    return <div className='vehicle-card'>{
+    MediaCard({data, deleteVehicle, userName})}
+    </div>; 
 };
 
 VehicleItem.propTypes = {

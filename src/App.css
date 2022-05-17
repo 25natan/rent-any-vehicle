@@ -1,10 +1,17 @@
 .App {
   text-align: center;
+  position: relative;
 }
+
 body {
   padding: 0%;
   margin: 0%;
   font-family: Arial, Helvetica, sans-serif;
+}
+.container {
+  padding: 0;
+  margin: auto;
+  min-width: fit-content;
 }
 
 nav {
@@ -23,8 +30,14 @@ nav a {
   color: white;
   text-decoration: none;
   margin: 10px;
-  font-size: 25px;
+  font-size: 20px;
 }
+
+.mailbox-nav-btn {
+  position: absolute;
+  right: 10px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -104,8 +117,10 @@ nav a {
 .search {
   background: aliceblue;
   max-width: 259px;
-  height: 100vh;
   padding: 23px 33px;
+  position: sticky;
+  top: 0px;
+  height: 100vh;
 }
 .search span.price {
   font-size: 12px;
@@ -119,21 +134,80 @@ nav a {
 
 .search button.search-btn {
   margin: 21px;
+  background: black;
+  color: whitesmoke;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 3px;
+}
+
+.vehicles-list {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.vehicle-card {
+  margin: 10px;
+  height: min-content;
+  width: 295px;
+}
+
+.vehicle-card p {
+  padding: 20px;
+}
+
+.vehicle-card .modal-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.vehicle-card img {
+  margin-bottom: 10px;
+}
+
+.vehicle-card .modal-header {
+  background-color: #ffc107;
+}
+
+.vehicle-card .modal-body {
+  margin-top: 20px;
+}
+
+.vehicle-card .MuiCardActions-root.MuiCardActions-spacing.css-1t6e9jv-MuiCardActions-root {
+  display: flex;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 790px) {
   .mobile-search-side-menu{
     display: unset;
     z-index: 2;
+    display: inline-block;
+    background: #090909;
+    height: fit-content;
+    padding: 10px;
+    color: aliceblue;
+    margin-top: 42px;
+    position: fixed;
+    left: 0;
   }
   .search.hide{
     display: none;
   }
   .search{
     display: unset;
-    position: absolute;
     z-index: 1;
     left: 0;
+  }
+}
+
+@media only screen and (max-width: 540px) {
+  .mobile-search-side-menu {
+    z-index: 2001;
+  }
+  .search {
+    position: fixed;
+    z-index: 2000;
   }
 }
 
