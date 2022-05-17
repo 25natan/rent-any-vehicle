@@ -36,7 +36,7 @@ const MediaCard = ({data, deleteVehicle, userName}) => {
 }
 
 const VehicleItem = ({data, deleteVehicle, userName}) => {
-    return <div className='vehicle-card' data-bs-toggle="modal" href={`#exampleModalToggle${data.id}`} role="button">{
+    return <div className='vehicle-card' id={`card-${data.id}`} data-bs-toggle="modal" href={`#exampleModalToggle${data.id}`} role="button">{
     MediaCard({data, deleteVehicle, userName})}
     </div>; 
 };

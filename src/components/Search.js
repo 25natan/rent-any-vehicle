@@ -8,28 +8,27 @@ import { searchByDistance } from '../searchByDistance';
 
 const animatedComponents = makeAnimated();
 
-const Search = ({setVehiclesToDisplay, setNoResults, className}) => {
+const Search = ({setVehiclesToDisplay, setNoResults, setToDisplaySideMenu, className}) => {
     const [types, setTypes] = useState(null);
     const [location, setLocation] = useState(null);
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(0);
 
     const sumbitSearch = async () => {
-        if (!types || !location) {
-            alert("Please fill all fields");
-            return;
+        try{
+            if (!types || !location) {
+                alert("Please fill all fields");
+                return;
+            }
+            const vehiclesRef = collection(db, "vehicles");
+            const q = query(vehiclesRef, where("type", "in", types), where("price", ">=", minPrice), where("price", "<=", maxPrice));
+            const querySnapshot = await getDocs(q);
+            setVehiclesToDisplay(querySnapshot.docs.map(doc => doc.data()));
+            setNoResults(querySnapshot.docs.length > 0 ? false : true);
+            setToDisplaySideMenu(false);
+        } catch (e) {
+         console.log(e);
         }
-        const vehiclesRef = collection(db, "vehicles");
-        console.log('types',types);
-        console.log('minPrice',minPrice);
-        console.log('maxPrice',maxPrice);
-        console.log('location',location);
-        const q = query(vehiclesRef, where("type", "in", types), where("price", ">=", minPrice), where("price", "<=", maxPrice));
-        const querySnapshot = await getDocs(q);
-        setVehiclesToDisplay(querySnapshot.docs.map(doc => doc.data()));
-        console.log('querySnapshot.docs.map(doc => doc.data())', querySnapshot.docs.map(doc => doc.data()));
-        console.log('!querySnapshot.docs.length', !!querySnapshot.docs.length);
-        setNoResults(querySnapshot.docs.length > 0 ? false : true);
     };
 
     return (

@@ -200,6 +200,19 @@ nav a {
   height: 300px;
 }
 
+.vehicle-card .contact-renter a{
+  padding-left: 30px;
+}
+
+.empty-results {
+  margin-top: 50px;
+}
+
+.empty-results img{
+  margin-top: 45px;
+  max-width: 36vw;
+}
+
 @media only screen and (max-width: 790px) {
   .mobile-search-side-menu{
     display: unset;

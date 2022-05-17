@@ -14,15 +14,16 @@ const Home = props => {
     const [toDisplaySideMenu, setToDisplaySideMenu] = useState(false);
     const vehiclesCollectionRef = collection(db, "vehicles");
 
+    const getAllVehicles = async () => {
+        setIsLoading(true);
+        const data = await getDocs(vehiclesCollectionRef);
+        setVehiclesToDisplay(data.docs.map(doc => ({...doc.data(), id: doc.id})));
+        setIsLoading(false);
+    };
+
     useEffect(() => {
-        if(!props.isAuth)  navigate('/signin');
-        const getAllVehicles = async () => {
-            setIsLoading(true);
-            const data = await getDocs(vehiclesCollectionRef);
-            setVehiclesToDisplay(data.docs.map(doc => ({...doc.data(), id: doc.id})));
-            setIsLoading(false);
-        };
         try{
+            if(!props.isAuth)  navigate('/signin');
             const vehiclesFronLocalStorage = localStorage.getItem('vehiclesToDisplay');
             if(vehiclesFronLocalStorage) {
                 setVehiclesToDisplay(JSON.parse(vehiclesFronLocalStorage));
@@ -51,9 +52,8 @@ const Home = props => {
 
     return (
         <div className='homePage'>
-            <button onClick={updateForTest}>click me</button>
             <div id='mobile-search-side-menu' className='mobile-search-side-menu fa fa-search' onClick={()=> setToDisplaySideMenu(!toDisplaySideMenu)}></div>
-            <Search  setVehiclesToDisplay={setVehiclesToDisplay} setNoResults={setNoResults} className={toDisplaySideMenu ? '' : 'hide'}/>
+            <Search  setVehiclesToDisplay={setVehiclesToDisplay} setNoResults={setNoResults} setToDisplaySideMenu={setToDisplaySideMenu} className={toDisplaySideMenu ? '' : 'hide'}/>
                 {isLoading && <div className='loading'>
                 <div id="load">
                     <div>G</div>
@@ -67,14 +67,13 @@ const Home = props => {
             </div>}
             <div className='vehicles-list'>
             {vehiclesToDisplay?.map(vehicle =><VehicleItem data={vehicle}  key={vehicle.id} deleteVehicle={deleteVehicle}/> )}
-            {noResults && <div className='empty-results'> <h2>Sorry.... We couldn't find any matches to your search </h2></div>}
+            {noResults && <div className='empty-results'> 
+                <h2>Sorry.... We couldn't find any matches to your search </h2>
+                <img src='/no-results.jpg' alt=''/>
+                </div>}
             </div> 
         </div>
     );
-};
-
-Home.propTypes = {
-    
 };
 
 export default Home;
