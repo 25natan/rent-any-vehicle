@@ -2,9 +2,6 @@ import React from 'react';
 
 const VehicleItemModal = data => {
     return <>
-           <a className="btn btn-primary" data-bs-toggle="modal" href={`#exampleModalToggle${data.id}`} role="button">
-            Description
-            </a>
             <div className="modal fade" id={`exampleModalToggle${data.id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div className="modal-content">
@@ -18,7 +15,6 @@ const VehicleItemModal = data => {
                     {data.price} $ For houre
                   </div>
                   <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" className="btn btn-primary">Contact Renter</button>
                   </div>
                 </div>

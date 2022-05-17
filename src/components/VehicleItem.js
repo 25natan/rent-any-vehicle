@@ -25,21 +25,18 @@ const MediaCard = ({data, deleteVehicle, userName}) => {
         <Typography gutterBottom variant="h5" component="div">
           {data.type}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-    {data.desc}
-        </Typography>
+        <div className='short-desc'>{data.desc}</div>
       </CardContent>
       <CardActions>
-        <Typography size="small">{data.price} $</Typography>
+        <div className='price'>{data.price} $</div>
         {VehicleItemModal(data)}
-        {/* <Button size="small"></Button> */}
       </CardActions>
     </Card>
   );
 }
 
 const VehicleItem = ({data, deleteVehicle, userName}) => {
-    return <div className='vehicle-card'>{
+    return <div className='vehicle-card' data-bs-toggle="modal" href={`#exampleModalToggle${data.id}`} role="button">{
     MediaCard({data, deleteVehicle, userName})}
     </div>; 
 };
