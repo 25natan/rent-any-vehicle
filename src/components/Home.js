@@ -5,6 +5,7 @@ import VehicleItem from './VehicleItem';
 import { useNavigate } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import Filters from './Filters';
+import { searchByDistance } from '../searchByDistance';
 
 const Home = props => {
     let navigate = useNavigate();
@@ -44,8 +45,10 @@ const Home = props => {
 
     return (
         <div className='homePage'>
-            <Filters setVehiclesToDisplay={setVehiclesToDisplay} setNoResults={setNoResults}/>
-
+            {/* <Filters setVehiclesToDisplay={setVehiclesToDisplay} setNoResults={setNoResults}/> */}
+            <button onClick={searchByDistance}>
+                click me
+            </button>
             <Grid container sx={{ m: 3 }} spacing={2}>
                 {isLoading && <div className='loading'>
                 <div id="load">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {vihecleTypes} from '../constants';
-import Select from 'react-select'
+import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from '../firebase-config';

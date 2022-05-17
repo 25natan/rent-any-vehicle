@@ -7,7 +7,7 @@ import { query, orderBy, startAt, endAt } from "firebase/firestore";
 
 const searchByDistance = () => {
     // Find cities within 50km of London
-    const center = [51.5074, 0.1278];
+    const center = [51.5074, 30.1278];
     const radiusInM = 50 * 1000;
 
     // Each item in 'bounds' represents a startAt/endAt pair. We have to issue
@@ -16,17 +16,17 @@ const searchByDistance = () => {
     const bounds = geohashQueryBounds(center, radiusInM);
     const promises = [];
     for (const b of bounds) {
-    const q = query(collection(db, 'cities'), orderBy('geohash'), startAt(b[0]), endAt(b[1]));
+    const q = query(collection(db, 'vehicles'), orderBy('geohash'), startAt(b[0]), endAt(b[1]));
 
     promises.push(getDocs(q));
     }
 
     // Collect all the query results together into a single list
     Promise.all(promises).then((snapshots) => {
-        const matchingDocs = [];
+    const matchingDocs = [];
 
-        for (const snap of snapshots) {
-            for (const doc of snap.docs) {
+    for (const snap of snapshots) {
+        for (const doc of snap.docs) {
             const lat = doc.get('lat');
             const lng = doc.get('lng');
 
@@ -37,12 +37,12 @@ const searchByDistance = () => {
             if (distanceInM <= radiusInM) {
                 matchingDocs.push(doc);
             }
-            }
         }
+    }
 
-        return matchingDocs;
+    return matchingDocs;
     }).then((matchingDocs) => {
-        console.log(matchingDocs);
+        matchingDocs.forEach(doc => console.log(doc.data()))
     });
 }
 
