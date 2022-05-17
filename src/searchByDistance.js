@@ -1,6 +1,6 @@
 import { db } from "./firebase-config";
 import { geohashForLocation } from "geofire-common";
-import { collection, doc, addDoc ,getDocs} from "firebase/firestore";
+import { collection, doc, setDoc ,getDocs} from "firebase/firestore";
 import { geohashQueryBounds, distanceBetween} from "geofire-common";
 import { query, orderBy, startAt, endAt } from "firebase/firestore"; 
 
@@ -52,7 +52,7 @@ const updateForTest = () => {
     const hash = geohashForLocation([lat, lng]);
     console.log('hash value: ', hash);
     const docRefRef = doc(db, 'vehicles', 'IvW3DCBwu43kWCg7aJZS');
-    addDoc(docRefRef, {
+    setDoc(docRefRef, {
         geohash: hash,
         lat: lat,
         lng: lng }, { merge: true })

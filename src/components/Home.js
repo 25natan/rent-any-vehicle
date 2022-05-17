@@ -8,7 +8,6 @@ import { updateForTest } from '../searchByDistance';
 
 const Home = props => {
     let navigate = useNavigate();
-    const [vehiclesList, setVehiclesList] = useState([]);
     const [vehiclesToDisplay, setVehiclesToDisplay] = useState([]);
     const [noResults, setNoResults] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -17,19 +16,19 @@ const Home = props => {
 
     useEffect(() => {
         if(!props.isAuth)  navigate('/signin');
-        const getVehicles = async () => {
+        const getAllVehicles = async () => {
             setIsLoading(true);
             const data = await getDocs(vehiclesCollectionRef);
-            setVehiclesList(data.docs.map(doc => ({...doc.data(), id: doc.id})));
+            setVehiclesToDisplay(data.docs.map(doc => ({...doc.data(), id: doc.id})));
             setIsLoading(false);
         };
         try{
-        const vehiclesFronLocalStorage = localStorage.getItem('vehiclesToDisplay');
-        if(vehiclesFronLocalStorage) {
-            setVehiclesToDisplay(JSON.parse(vehiclesFronLocalStorage)); 
-            return;
-        }
-            vehiclesToDisplay.length && getVehicles();
+            const vehiclesFronLocalStorage = localStorage.getItem('vehiclesToDisplay');
+            if(vehiclesFronLocalStorage) {
+                setVehiclesToDisplay(JSON.parse(vehiclesFronLocalStorage));
+                return;   
+            }
+            getAllVehicles();
         } catch (e) {
             console.log(e);
             setIsLoading(false);
@@ -44,7 +43,7 @@ const Home = props => {
         try{
         const vehicleDoc = doc(db, 'vehicles', id);
         await deleteDoc(vehicleDoc);
-        setVehiclesList(vehiclesList.filter(vehicle => vehicle.id !== id));
+        setVehiclesToDisplay(vehiclesToDisplay.filter(vehicle => vehicle.id !== id));
         } catch(e){
             console.log(e);
         }
@@ -67,9 +66,6 @@ const Home = props => {
                     </div>
             </div>}
             <div className='vehicles-list'>
-            {vehiclesToDisplay?.map(vehicle =><VehicleItem data={vehicle}  key={vehicle.id} deleteVehicle={deleteVehicle}/> )}
-            {vehiclesToDisplay?.map(vehicle =><VehicleItem data={vehicle}  key={vehicle.id} deleteVehicle={deleteVehicle}/> )}
-            {vehiclesToDisplay?.map(vehicle =><VehicleItem data={vehicle}  key={vehicle.id} deleteVehicle={deleteVehicle}/> )}
             {vehiclesToDisplay?.map(vehicle =><VehicleItem data={vehicle}  key={vehicle.id} deleteVehicle={deleteVehicle}/> )}
             {noResults && <div className='empty-results'> <h2>Sorry.... We couldn't find any matches to your search </h2></div>}
             </div> 

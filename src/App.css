@@ -11,7 +11,7 @@ body {
 .container {
   padding: 0;
   margin: auto;
-  min-width: fit-content;
+  min-width: 100%;
 }
 
 nav {
@@ -117,7 +117,7 @@ nav a {
 .search {
   background: aliceblue;
   max-width: 259px;
-  padding: 23px 33px;
+  padding: 50px 33px;
   position: sticky;
   top: 0px;
   height: 100vh;
@@ -142,9 +142,11 @@ nav a {
 }
 
 .vehicles-list {
+  margin-top: 50px;
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: center;
+  flex-grow: 1;
 }
 .vehicle-card {
   margin: 10px;
@@ -184,6 +186,9 @@ nav a {
 
 .vehicle-card .modal-body {
   margin-top: 20px;
+}
+.vehicle-card .modal-body p {
+  padding: 10px 73px;
 }
 
 .vehicle-card .MuiCardActions-root.MuiCardActions-spacing.css-1t6e9jv-MuiCardActions-root {
@@ -409,9 +414,10 @@ nav a {
 
 .homePage {
   margin: auto;
-  justify-content: center;
+  justify-content: flex-start;
   display: flex;
 }
+
 .footer{
   position: fixed;
   bottom: 0;

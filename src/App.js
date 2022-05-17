@@ -12,7 +12,7 @@ import Home from "./components/Home";
 import { useEffect, useState } from "react";
 import {signOut} from 'firebase/auth';
 import { auth, db } from "./firebase-config";
-import {addDoc, doc} from "firebase/firestore";
+import {setDoc, doc} from "firebase/firestore";
 import Mailbox from "./components/Mailbox";
 
 function App() {
@@ -43,7 +43,7 @@ function App() {
   }, []);
 
   const signUserUp = (userName, password) => {
-      addDoc(doc(db, "users", userName),
+      setDoc(doc(db, "users", userName),
         {
           userName: userName,
           password: password
