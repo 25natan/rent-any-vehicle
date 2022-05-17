@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import ImageUploader from "../ImageUpload";
 import { useState } from "react";
-import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
+import { setDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { auth, db, storage } from "../firebase-config";
 import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
@@ -45,7 +45,7 @@ export default function AddItem({isAuth, userName}) {
       const imagesList = await listAll(imagesRef);
       const id = v4();
       const imagesItemUrls = await Promise.all(imagesList.items.map(async item => {return await getDownloadURL(item)}));
-      await addDoc(vehiclesCollectionRef, {type, price, desc, imagesUrls: imagesItemUrls, renter: userName, id});
+      await setDoc(vehiclesCollectionRef, {type, price, desc, imagesUrls: imagesItemUrls, renter: userName, id});
       alert('Item Upladed!');
     } catch (e) {
       console.log(e);
