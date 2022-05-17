@@ -46,9 +46,9 @@ const searchByDistance = () => {
     });
 }
 
-const updateDoc = () => {
+const updateForTest = () => {
     const lat = 51.5074;
-    const lng = 30.1278;
+    const lng = 31.12;
     const hash = geohashForLocation([lat, lng]);
     console.log('hash value: ', hash);
     const docRefRef = doc(db, 'vehicles', 'IvW3DCBwu43kWCg7aJZS');
@@ -60,4 +60,4 @@ const updateDoc = () => {
     .catch(e => console.log(e))
 }
 
-export { searchByDistance, updateDoc};
+export { searchByDistance, updateForTest};
