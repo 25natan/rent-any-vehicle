@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { getDocs, collection, doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { getDocs, collection, doc, deleteDoc } from 'firebase/firestore';
 import {db} from '../firebase-config';
 import VehicleItem from './VehicleItem';
 import { useNavigate } from 'react-router-dom';
 import Search from './Search';
-import { updateForTest } from '../searchByDistance';
 
 const Home = props => {
     let navigate = useNavigate();
