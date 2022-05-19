@@ -5,7 +5,7 @@ import { geohashQueryBounds, distanceBetween} from "geofire-common";
 import { query, orderBy, startAt, endAt } from "firebase/firestore"; 
 
 
-const search = async (types, minPrice, maxPrice, location) => {
+const search = async (types, location) => {
     const radiusInM = 10 * 1000;
 
     const bounds = geohashQueryBounds(location, radiusInM);
