@@ -11,6 +11,10 @@ import {ref, listAll} from 'firebase/storage';
 import { deleteDoc, doc } from 'firebase/firestore';
 import VehicleItemModal from './VehicleItemModal';
 
+
+const ratingStart = () => {
+  return <></>
+}
 const MediaCard = ({data, deleteVehicle, userName}) => {
   return (
     <Card sx={{ maxWidth: 345 }} >
@@ -36,7 +40,7 @@ const MediaCard = ({data, deleteVehicle, userName}) => {
 }
 
 const VehicleItem = ({data, deleteVehicle, userName}) => {
-    return <div className='vehicle-card' id={`card-${data.id}`} data-bs-toggle="modal" href={`#exampleModalToggle${data.id}`} role="button">{
+    return <div className='vehicle-card' id={`card-${data.id}`} data-bs-toggle="modal" data-backdrop="static" data-keyboard="false" href={`#exampleModalToggle${data.id}`} role="button">{
     MediaCard({data, deleteVehicle, userName})}
     </div>; 
 };

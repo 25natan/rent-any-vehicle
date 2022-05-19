@@ -3,6 +3,10 @@
   position: relative;
 }
 
+img {
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
 body {
   padding: 0%;
   margin: 0%;
@@ -177,7 +181,6 @@ nav a {
 
 .vehicle-card img {
   margin-bottom: 10px;
-  height: 190px;
 }
 
 .vehicle-card .modal-header {
@@ -443,3 +446,19 @@ nav a {
   color: white;
   text-decoration: none;
 }
+
+.rating {
+	cursor: pointer;
+}
+
+.rating .rating-star {
+	display: inline-block;
+  position: relative;
+  padding-right: 5px;
+  margin-left: -5px;
+  color: #e3cf7a;
+}
+.rating .selected:before {
+  content: '\f005';
+}
+
