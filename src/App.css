@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
   position: relative;
@@ -126,6 +127,19 @@ nav a {
   top: 0px;
   height: 100vh;
 }
+.search input#location-field {
+  width: 192px;
+  height: 37.5px;
+  text-align: center;
+  border: solid gray 0.1px;
+  border-radius: 3px;
+}
+.search > span {
+  display: inline-block;
+  width: 193px;
+  margin-top: 30px;
+}
+
 .search span.price {
   font-size: 12px;
 }
@@ -136,17 +150,61 @@ nav a {
   font-size: 16px;
 }
 
+.search .radius {
+  margin-top: 10px;
+}
+.search .radius-title {
+  font-size: 13.5px;
+}
+.search .radius input[type="number"] {
+  width: 80px;
+  height: 17px;
+  font-size: 12px;
+}
+
+
+.filter-price {
+  display: flex;
+  background: #f3f3f3;
+  justify-content: center;
+  margin: 50px 48px 0;
+  padding: 10px;
+  border-bottom: solid 1px;
+}
+
+.filter-price span.price {
+  display: flex;
+  align-items: center;
+  padding-right: 49px;
+}
+.filter-price button.filter {
+    background: #ec884e;
+}
+
+.sort-by {
+  margin-left: 29px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 10px 30px;
+}
+
+.sort-title {
+  margin-right: 15px;
+}
+
 .search button.search-btn {
   margin: 21px;
   background: black;
-  color: whitesmoke;
-  font-size: 15px;
+  color: white;
+  font-size: 17px;
   font-weight: 600;
-  border-radius: 3px;
+  border-radius: 1px;
+  padding: 8px;
+  margin-top: 50px;
 }
 
 .vehicles-list {
-  margin-top: 50px;
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -185,6 +243,7 @@ nav a {
 
 .vehicle-card .modal-header {
   background-color: #ffc107;
+  justify-content: center;
 }
 
 .vehicle-card .modal-body {
@@ -216,9 +275,13 @@ nav a {
   max-width: 36vw;
 }
 
+.stars {
+  color: gold;
+}
 @media only screen and (max-width: 790px) {
   .mobile-search-side-menu{
     display: unset;
+    cursor: pointer;
     z-index: 2;
     display: inline-block;
     background: #090909;
@@ -447,7 +510,7 @@ nav a {
   text-decoration: none;
 }
 
-.rating {
+.rating i {
 	cursor: pointer;
 }
 
@@ -462,3 +525,40 @@ nav a {
   content: '\f005';
 }
 
+@media only screen and (min-width: 1024px) {
+  .cd-slider-wrapper {
+    transition: width 0.4s;
+    width: 50%; 
+  }
+  .cd-slider-active .cd-slider-wrapper {
+    width: 100%; 
+  } 
+}
+@media only screen and (min-width: 1024px) {
+  .cd-item-info {
+    position: absolute;
+    width: 50%;
+    top: 0;
+    right: 0;
+    padding: 60px 60px 0;
+  } 
+}
+
+.open-modal-btn {
+  background: white;
+  border: solid 1px;
+  border-radius: 50%;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+.close-modal-btn {
+  color: white;
+  background: #3d3a3a;
+  border-radius: 5px;
+  position: absolute;
+  padding: 0px 7px;
+  right: 21px;
+  top: 18px;
+}

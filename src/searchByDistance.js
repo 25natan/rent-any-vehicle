@@ -5,10 +5,10 @@ import { geohashQueryBounds, distanceBetween} from "geofire-common";
 import { query, orderBy, startAt, endAt } from "firebase/firestore"; 
 
 
-const search = async (types, location) => {
-    const radiusInM = 10 * 1000;
+const search = async ({types, location, radius}) => {
+    // const radius = 10 * 1000;
 
-    const bounds = geohashQueryBounds(location, radiusInM);
+    const bounds = geohashQueryBounds(location, radius);
     const promises = [];
     for (const b of bounds) {
         const q = query(collection(db, 'vehicles'), where("type", "in", types), orderBy('geohash'), startAt(b[0]), endAt(b[1]));
@@ -24,7 +24,7 @@ const search = async (types, location) => {
 
                 const distanceInKm = distanceBetween([lat, lng], location);
                 const distanceInM = distanceInKm * 1000;
-                if (distanceInM <= radiusInM) {
+                if (distanceInM <= radius) {
                     matchingDocs.push(doc);
                 }
             }

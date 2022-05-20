@@ -14,6 +14,7 @@ import {signOut} from 'firebase/auth';
 import { auth, db } from "./firebase-config";
 import {setDoc, doc} from "firebase/firestore";
 import Mailbox from "./components/Mailbox";
+import $ from 'jquery';
 
 function App() {
 

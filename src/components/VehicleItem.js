@@ -1,23 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { storage, db } from '../firebase-config';
-import {ref, listAll} from 'firebase/storage';
-import { deleteDoc, doc } from 'firebase/firestore';
 import VehicleItemModal from './VehicleItemModal';
 
-
-const ratingStart = () => {
-  return <></>
-}
 const MediaCard = ({data, deleteVehicle, userName}) => {
   return (
     <Card sx={{ maxWidth: 345 }} >
+      <button className='open-modal-btn' data-target={`simpleModal_${data.id}`} data-toggle="modal">...</button>
       <CardMedia
         component="img"
         height="140"
@@ -30,6 +23,7 @@ const MediaCard = ({data, deleteVehicle, userName}) => {
           {data.type}
         </Typography>
         <div className='short-desc'>{data.desc}</div>
+        <div className='stars'>{Array(data.rateAvg).fill().map(()=> <i key={Math.random()} className='fa fa-star fa-2x'></i>)}</div>
       </CardContent>
       <CardActions>
         <div className='price'>{data.price} $</div>
@@ -40,13 +34,9 @@ const MediaCard = ({data, deleteVehicle, userName}) => {
 }
 
 const VehicleItem = ({data, deleteVehicle, userName}) => {
-    return <div className='vehicle-card' id={`card-${data.id}`} data-bs-toggle="modal" data-backdrop="static" data-keyboard="false" href={`#exampleModalToggle${data.id}`} role="button">{
-    MediaCard({data, deleteVehicle, userName})}
+    return<div className='vehicle-card'  >
+      { MediaCard({data, deleteVehicle, userName})}
     </div>; 
-};
-
-VehicleItem.propTypes = {
-    
 };
 
 export default VehicleItem;

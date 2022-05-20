@@ -1,28 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getDocs, collection, doc, deleteDoc } from 'firebase/firestore';
 import {db} from '../firebase-config';
 import VehicleItem from './VehicleItem';
 import { useNavigate } from 'react-router-dom';
 import Search from './Search';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+import { sortTypes } from '../constants';
+import Item from './Item';
+var lodash = require('lodash');
+
+const animatedComponents = makeAnimated();
 
 const Home = props => {
-    let navigate = useNavigate();
     const [vehiclesToDisplay, setVehiclesToDisplay] = useState([]);
     const [noResults, setNoResults] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [toDisplaySideMenu, setToDisplaySideMenu] = useState(false);
+    const [, updateState] = useState();
+    const forceUpdate = useCallback(() => updateState({}), []);
+    
+    let navigate = useNavigate();
     const vehiclesCollectionRef = collection(db, "vehicles");
 
     const getAllVehicles = async () => {
         setIsLoading(true);
         const data = await getDocs(vehiclesCollectionRef);
-        setVehiclesToDisplay(data.docs.map(doc => ({...doc.data(), id: doc.id})));
+        const vehiclesData = data.docs.map(doc => ({...doc.data(), id: doc.id}));
+        setVehiclesToDisplay(vehiclesData.map(vehicle => {
+            return {...vehicle, rateAvg: parseInt(lodash.sum(vehicle.rate)/vehicle.rate.length)}
+        }));
+        setVehiclesToDisplay();
         setIsLoading(false);
     };
 
     useEffect(() => {
         try{
             if(!props.isAuth)  navigate('/signin');
+            // forceUpdate();
             const vehiclesFronLocalStorage = localStorage.getItem('vehiclesToDisplay');
             if(vehiclesFronLocalStorage) {
                 setVehiclesToDisplay(JSON.parse(vehiclesFronLocalStorage));
@@ -34,6 +49,39 @@ const Home = props => {
             setIsLoading(false);
         }
     }, []);
+
+    const sortByLocation = () => {
+        setVehiclesToDisplay(vehiclesToDisplay.sort((a, b) => (a.price < b.price ? 1 : -1)));
+
+        // vehiclesToDisplay.sort((a, b) =>{
+        //     return distance(a['geocode'], myLocation).compareTo(distance(b['geocode'], myLocation));
+        //   });
+
+
+            // // Current user location - mocked for sake of simplicity
+            //  const coordinates = { latitude: "48.669", longitude: "-4.32913" };
+            
+            //  const center = [coordinates.latitude, coordinates.longitude];
+             
+            // const  distanceInKm  =  distanceBetween([lat,  lng],  center);
+            
+            // return  [...vehicles].sort((a,  b) => {
+            // const distanceFromA =  distanceBetween([a.coordinate.lat,  a.coordinate.lng],  center)  
+            // const distanceFromB =  distanceBetween([b.coordinate.lat,  b.coordinate.lng],  center);
+            // return  distanceFromA - distanceFromB 
+            // });
+    };
+
+    const sortByPrice = () => {
+        setVehiclesToDisplay(vehiclesToDisplay.sort((a, b) => (a.price > b.price ? 1 : -1)));
+    };
+
+    const sort = e => {
+        if(e.value === 'location') sortByLocation();
+        else if (e.value === 'price') sortByPrice();
+         forceUpdate()
+    } 
+
 
     useEffect(() => {
         vehiclesToDisplay.length && localStorage.setItem('vehiclesToDisplay', JSON.stringify(vehiclesToDisplay));
@@ -64,12 +112,25 @@ const Home = props => {
                     <div>L</div>
                     </div>
             </div>}
+            <div className='search-results'>
+            <div className='sort-by'>
+                <div className='sort-title'>Sort by</div>
+                 <Select 
+                required
+                closeMenuOnSelect={false}
+                placeholder='select...'
+                components={animatedComponents} 
+                options={sortTypes.map(type => {return {value: type, label: type}})} 
+                onChange={sort}/>
+                </div>
             <div className='vehicles-list'>
+                {/* <Item/> */}
             {vehiclesToDisplay?.map(vehicle =><VehicleItem data={vehicle}  key={vehicle.id} deleteVehicle={deleteVehicle} setIsLoading={setIsLoading}/> )}
             {noResults && <div className='empty-results'> 
                 <h2>Sorry.... We couldn't find any matches to your search </h2>
                 <img src='/no-results.jpg' alt=''/>
                 </div>}
+            </div> 
             </div> 
         </div>
     );
