@@ -53,23 +53,6 @@ const Home = props => {
     const sortByLocation = () => {
         setVehiclesToDisplay(vehiclesToDisplay.sort((a, b) => (a.price < b.price ? 1 : -1)));
 
-        // vehiclesToDisplay.sort((a, b) =>{
-        //     return distance(a['geocode'], myLocation).compareTo(distance(b['geocode'], myLocation));
-        //   });
-
-
-            // // Current user location - mocked for sake of simplicity
-            //  const coordinates = { latitude: "48.669", longitude: "-4.32913" };
-            
-            //  const center = [coordinates.latitude, coordinates.longitude];
-             
-            // const  distanceInKm  =  distanceBetween([lat,  lng],  center);
-            
-            // return  [...vehicles].sort((a,  b) => {
-            // const distanceFromA =  distanceBetween([a.coordinate.lat,  a.coordinate.lng],  center)  
-            // const distanceFromB =  distanceBetween([b.coordinate.lat,  b.coordinate.lng],  center);
-            // return  distanceFromA - distanceFromB 
-            // });
     };
 
     const sortByPrice = () => {
@@ -124,7 +107,6 @@ const Home = props => {
                 onChange={sort}/>
                 </div>
             <div className='vehicles-list'>
-                {/* <Item/> */}
             {vehiclesToDisplay?.map(vehicle =><VehicleItem data={vehicle}  key={vehicle.id} deleteVehicle={deleteVehicle} setIsLoading={setIsLoading}/> )}
             {noResults && <div className='empty-results'> 
                 <h2>Sorry.... We couldn't find any matches to your search </h2>
