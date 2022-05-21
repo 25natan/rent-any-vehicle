@@ -114,6 +114,7 @@ export default function AddItem({isAuth, userName}) {
           Description
           </Typography>
         <TextareaAutosize
+        className="add-item-desc"
             aria-label="Description"
             minRows={4}
             placeholder="Add some words..."
@@ -126,7 +127,7 @@ export default function AddItem({isAuth, userName}) {
           <ImageUploader images={images} setImages={setImages} />{" "}
         </Box>
       </Container>
-      <button onClick={addVehiclesToDb}>Submit</button>
+      <button className="submit-upload"  onClick={addVehiclesToDb}>Submit</button>
     </ThemeProvider>
   );
 }

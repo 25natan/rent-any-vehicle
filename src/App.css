@@ -231,6 +231,9 @@ nav a {
 .vehicle-card .short-desc p{
   max-height: 20px;
 }
+.add-item-desc {
+  font-family: 'Roboto' !important;
+}
 
 .vehicle-card .modal-footer {
     display: flex;
@@ -291,6 +294,19 @@ nav a {
 .stars {
   color: gold;
 }
+
+.upload__image-wrapper {
+  width: 300px;
+}
+
+button.submit-upload {
+  background: black;
+  border-radius: 3px;
+  color: white;
+  margin-bottom: 50px;
+  padding: 5px 11px;
+}
+
 @media only screen and (max-width: 790px) {
   .mobile-search-side-menu{
     display: unset;
