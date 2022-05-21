@@ -58,9 +58,8 @@ const VehicleItemModal = data => {
                     {data.imagesUrls.map(imgUrl => <img width='300px' key={imgUrl} src={imgUrl} alt=''/>)}
                     <p>{data.desc}</p>
                     <div>{data.price} $ For houre</div>
-                    <button className='rate' ovClick={()=> {document.getElementById('rate-erea').classList += ' show'}}>I want to rate</button>
+                    <div className='rate-title'>I know this item and want to rate:</div>
                     <div className='rate' onClick={getRate}>
-                      {/* {showRate && <> */}
                         <form>
                         <input type="number" name="rating" id="rating-input" min="1" max="5" style={{display: 'none'}} />
                         </form>
@@ -70,8 +69,7 @@ const VehicleItemModal = data => {
                           <i className="fa fa-star-o fa-2x rating-star" id="rating-3" data-rating="3" tabIndex="0" aria-label="Rate as three out of 5 stars" role="radio"></i>
                           <i className="fa fa-star-o fa-2x rating-star" id="rating-4" data-rating="4" tabIndex="0" aria-label="Rate as four out of 5 stars" role="radio"></i>
                           <i className="fa fa-star-o fa-2x rating-star" id="rating-5" data-rating="5" tabIndex="0" aria-label="Rate as five out of 5 stars" role="radio"></i>
-                        </div>
-                        {/* </> }*/}
+                        </div>      
                      </div>
                 </div>
                   <div className="modal-footer">

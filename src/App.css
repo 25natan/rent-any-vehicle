@@ -283,6 +283,11 @@ nav a {
   max-width: 36vw;
 }
 
+.rate-title {
+  padding-top: 10px;
+  color: #747f7b;
+}
+
 .stars {
   color: gold;
 }
