@@ -235,6 +235,7 @@ nav a {
 .vehicle-card .modal-footer {
     display: flex;
     justify-content: center;
+    background: lightgrey;
 }
 
 .vehicle-card img {
@@ -253,6 +254,9 @@ nav a {
   padding: 10px 73px;
 }
 
+.vehicle-card .modal-body img {
+  padding: 10px;
+}
 .vehicle-card .MuiCardActions-root.MuiCardActions-spacing.css-1t6e9jv-MuiCardActions-root {
   display: flex;
   justify-content: center;
@@ -260,6 +264,10 @@ nav a {
 
 .vehicle-card .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.css-1ri6ub7-MuiPaper-root-MuiCard-root {
   height: 300px;
+  width: 295px;
+}
+.search-results {
+  padding-left: 15px;
 }
 
 .vehicle-card .contact-renter a{
@@ -561,4 +569,10 @@ nav a {
   padding: 0px 7px;
   right: 21px;
   top: 18px;
+}
+.fa-whatsapp  {
+  color:#fff;
+  background:
+   linear-gradient(#25d366,#25d366) 14% 84%/16% 16% no-repeat,
+   radial-gradient(#25d366 60%,transparent 0);
 }

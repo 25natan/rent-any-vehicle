@@ -18,12 +18,14 @@
     margin: 10% auto;
 }
 
-.modal-window.small {
-    width: 30%;
+@media only screen and (max-width: 600px) {
+ .modal-window {
+    width: 80%;
+ }
 }
 
-.modal-window.large {
-    width: 75%;
+.modal-window.small {
+    width: 30%;
 }
 
 .close {
