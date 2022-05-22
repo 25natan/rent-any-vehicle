@@ -24,6 +24,6 @@
         "Rowboat",
         "Boat",
       ];
-    const sortTypes = ['price', 'location']
+    const sortTypes = ['price', 'rate', 'location']
 
 export {vihecleTypes, sortTypes};

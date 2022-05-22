@@ -63,6 +63,8 @@ function App() {
   return (
     <div className="App">
       <Router>
+      <div className="header">
+      <div className="logo"> <img src='/logo.png' alt='logo'/></div>
         <nav>
           {!isAuth ? <Link to='/signin'>Sign In</Link> :
           <>
@@ -73,6 +75,7 @@ function App() {
           </>
         }
         </nav>
+        </div>
         <Routes>
           <Route path="/" element={<Home isAuth={isAuth}/>}/>
           <Route path="/addItem" element={<AddItem isAuth={isAuth} userName={userName}/>}/>

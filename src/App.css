@@ -330,7 +330,17 @@ button.submit-upload {
     left: 0;
   }
 }
-
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.logo {
+  background: black;
+}
+.logo img {
+  height: 70px;
+}
 @media only screen and (max-width: 540px) {
   .mobile-search-side-menu {
     z-index: 2001;

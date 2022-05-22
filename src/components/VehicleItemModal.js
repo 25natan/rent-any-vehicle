@@ -9,7 +9,6 @@ const USERS = 'users';
 
 const VehicleItemModal = data => {
   const [renterDetailes, setRenterDetailes] = useState(null);
-  const [showRate, setShowRate] = useState(false);
 
   const sendRate = async (num) => {
     try{
@@ -24,11 +23,9 @@ const VehicleItemModal = data => {
   };
 
   const getRate = ()=> {
-    console.log('1');
       for (let stars = 5; stars > 0; stars--) {
         if(document.getElementById(`rating-${stars}`).classList.contains('selected')){
           sendRate(stars);
-          console.log('stars',stars);
           return;
         }
       }

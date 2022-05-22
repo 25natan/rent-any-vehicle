@@ -24,30 +24,28 @@ const Home = props => {
     const vehiclesCollectionRef = collection(db, "vehicles");
 
     const getAllVehicles = async () => {
-        setIsLoading(true);
-        const data = await getDocs(vehiclesCollectionRef);
-        const vehiclesData = data.docs.map(doc => ({...doc.data(), id: doc.id }));
-        setVehiclesToDisplay(vehiclesData.map(vehicle => {
-            return { ...vehicle, rateAvg: parseInt(lodash.sum(vehicle.rate) / vehicle.rate.length) }
-        }));
-        setVehiclesToDisplay();
-        setIsLoading(false);
+        try{
+            setIsLoading(true);
+            const data = await getDocs(vehiclesCollectionRef);
+            const vehiclesData = data.docs.map(doc => ({...doc.data(), id: doc.id }));
+            setVehiclesToDisplay(vehiclesData.map(vehicle => {
+                return { ...vehicle, rateAvg: parseInt(lodash.sum(vehicle.rate) / vehicle.rate.length) || 0 }
+            }));
+            setIsLoading(false);
+        } catch (e) {
+            console.log(e);
+            setIsLoading(false);
+        }
     };
 
     useEffect(() => {
-        try {
             if (!props.isAuth) navigate('/signin');
-            // forceUpdate();
             const vehiclesFronLocalStorage = localStorage.getItem('vehiclesToDisplay');
             if (vehiclesFronLocalStorage) {
                 setVehiclesToDisplay(JSON.parse(vehiclesFronLocalStorage));
                 return;
             }
             getAllVehicles();
-        } catch (e) {
-            console.log(e);
-            setIsLoading(false);
-        }
     }, []);
 
     const sortByLocation = () => {

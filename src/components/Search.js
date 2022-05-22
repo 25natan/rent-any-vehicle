@@ -32,7 +32,7 @@ const Search = ({setVehiclesToDisplay, setNoResults, setToDisplaySideMenu, class
             }
             const vehiclesData = await search({types, location, radius});
             setVehiclesToDisplay(vehiclesData.map(vehicle => {
-                return {...vehicle, rateAvg: parseInt(lodash.sum(vehicle.rate)/vehicle.rate.length)}
+                return {...vehicle, rateAvg: parseInt(lodash.sum(vehicle.rate)/vehicle.rate.length) || 0}
             }));
             setNoResults(vehiclesData.length > 0 ? false : true);
             setToDisplaySideMenu(false);
