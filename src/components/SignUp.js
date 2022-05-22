@@ -19,94 +19,45 @@ const theme = createTheme();
 
 export default function SignUp(props) {
   let navigate = useNavigate();
-  
-  const signUp = (event) => {
-    event.preventDefault();
-    const [userName, password] = [event.target.firstName.value + ' ' + event.target.lastName.value, event.target.password.value];
-    props.signUserUp(userName, password);
-  }
 
   useEffect(() => {
     console.log(props.isAuth);
     if(props.isAuth)  navigate('/');
   },[]);
 
+  const submitform = event => {
+    event.preventDefault();
+    const [userName, email, phoneNumber, hasWhatsapp, password] = [event.target.userName.value, 
+                                                                  event.target.email.value, 
+                                                                  event.target.phoneNumber.value, 
+                                                                  event.target.hasWhatsapp.checked, 
+                                                                  event.target.password.value];
+    props.signUserUp({userName, email, phoneNumber, hasWhatsapp, password});
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={signUp}
-            noValidate
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="center">
-              <Grid item>
-                  <Link href='/signIn'>
-                    {"Already have an account? Sign In"}
-                  </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+    <div className="signup-page">
+      <form className="signup-form" onSubmit={submitform}>
+      <h1>Sign Up</h1>
+      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+             <LockOutlinedIcon />
+        </Avatar>
+        <label htmlFor='userName'>User Name</label>
+        <input required name='userName'></input>
+        <label htmlFor='email'>Email </label>
+        <input type='email' required name='email'></input>
+        <label htmlFor='phoneNumber'>Phone Number</label>
+        <input required type='tel' name='phoneNumber'></input>
+        <label htmlFor='hasWhatsapp' className="hasWhatsappCheckBox">Phone number has Whatsapp</label>
+        <input type='checkbox' name='hasWhatsapp'></input>
+        <label htmlFor='password' className="password">Password</label>
+        <input type='password' name='password'></input>
+        <button className="sumbit-signup" type='submit'>Submit</button>
+       <span className="error" aria-live="polite">{props.error}</span>
+        <Link href='/signIn'>
+                 {"Already have an account? Sign In"}
+       </Link>
+      </form>
+    </div>
   );
 }

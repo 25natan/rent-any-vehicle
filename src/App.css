@@ -1,3 +1,40 @@
+form.signup-form .css-1999axt-MuiAvatar-root{
+  background-color: #c67f22;
+}
+form.signup-form {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 77px;
+  padding: 47px;
+  background: aliceblue;
+  font-size: 18px;
+  border: 3px solid #7c6a55;;
+  border-radius: 13px;
+}
+
+button.sumbit-signup {
+  margin: 20px;
+  background: black;
+  color: white;
+  border-radius: 5px;
+  padding: 3px 13px;
+}
+
+label.hasWhatsappCheckBox {
+  font-size: 12px;
+  margin-top: 16px;
+}
+
+span.error {
+  color: red;
+  margin-bottom: 20px;
+  width: 300px;
+}
+
+.signup-form label {
+  margin-top: 20px;
+}
 
 .App {
   text-align: center;
@@ -352,15 +389,18 @@ button.submit-upload {
 }
 
 .loading {
- font-size: 24px;
+  font-size: 24px;
+  position: absolute;
+  top: 45%;
+  left: 30%;
 }
 
 #load {
-  position:absolute;
+  position: absolute;
   width:600px;
   height:36px;
-  left:50%;
-  top:40%;
+  left:50vw;
+  top:40vh;
   margin-left:-300px;
   overflow:visible;
   -webkit-user-select:none;
@@ -374,6 +414,8 @@ button.submit-upload {
   position:absolute;
   width:20px;
   height:36px;
+  left:50vw;
+  top:40vh;
   opacity:0;
   font-family:Helvetica, Arial, sans-serif;
   animation:move 2s linear infinite;
@@ -384,7 +426,7 @@ button.submit-upload {
   -o-transform:rotate(180deg);
   -moz-transform:rotate(180deg);
   -webkit-transform:rotate(180deg);
-  color:#35C4F0;
+  color: #c67f22;
 }
 
 #load div:nth-child(2) {

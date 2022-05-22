@@ -46,7 +46,7 @@ export default function SignIn(props) {
         props.setUserName(userName);
         window.location.pathname = '/';
       }
-      else console.log('username or password are not correct');
+      else props.setError('Sorry... Username or password are not correct');
     })
   };
 
@@ -55,76 +55,25 @@ export default function SignIn(props) {
   },[]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+    <div className="signin-page">
+      <form className="signup-form" onSubmit={signIn}>
+        <h1>Sign In</h1>
+      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={signIn}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="User Name"
-              name="userName"
-              autoComplete="username"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                  <Link href='#'>
-                    Forgot password?
-                  </Link>
-              </Grid>
-              <Grid item>
-                  <Link href='/signUp'>
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-              </Grid>
-            </Grid>
-            <button className="signin-with-google-btn" onClick={signInWithGoogle}>Sign in with google</button>
-          </Box>
-
-        </Box>
+        </Avatar>
+        <label htmlFor='userName'>User Name</label>
+        <input required name='userName'></input>
+        <label htmlFor='password' className="password">Password</label>
+        <input type='password' name='password'></input>
+        <button className="sumbit-signup" type='submit'>Submit</button>
+        <span className="error" aria-live="polite">{props.error}</span>
+        <button className="signin-with-google-btn" onClick={signInWithGoogle}>Sign in with google</button>
+        {/* <Link href='#'>Forgot password?</Link> */}
+        <Link href='/signUp'>
+              {"Don't have an account? Sign Up"}
+        </Link>
         
-      </Container>
-          
-    </ThemeProvider>
+      </form>
+  </div>
   );
 }

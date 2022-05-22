@@ -12,14 +12,16 @@ import Home from "./components/Home";
 import { useEffect, useState } from "react";
 import {signOut} from 'firebase/auth';
 import { auth, db } from "./firebase-config";
-import {setDoc, doc} from "firebase/firestore";
+import {setDoc, doc, getDoc} from "firebase/firestore";
 import Mailbox from "./components/Mailbox";
 import $ from 'jquery';
+const USERS = 'users';
 
 function App() {
-
+  const [isLoading, setIsLoading] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
   const [userName, setUserName] = useState(null);
+  const [error, setError] = useState('');
 
   const signUserOut = () => {
     signOut(auth).then(() => {
@@ -43,22 +45,33 @@ function App() {
     setUserName(localStorage.getItem('userName'));
   }, []);
 
-  const signUserUp = (userName, password) => {
+  const signUserUp = async ({userName, email, phoneNumber, hasWhatsapp, password}) => {
+    try{
+      setIsLoading(true);
+      const userDocRef = doc(db, USERS, userName);
+      const docs = await getDoc(userDocRef);
+      if(docs.exists()) {
+        setError("Sorry! User name already exists\nPlesae try another name");
+        setIsLoading(false);
+        return;
+      }
       setDoc(doc(db, "users", userName),
-        {
-          userName: userName,
-          password: password
-        },
-        {
-          merge: true
-        }
-      )
-      .then(() => {
-        setIsAuth(true);
-        setUserName(userName);
-        window.location.pathname = '/';
-      });
-  }
+        {userName: userName, email: email, phoneNumber: phoneNumber, hasWhatsapp: hasWhatsapp, password: password},
+          {
+            merge: true
+          }
+        )
+        .then(() => {
+          setIsAuth(true);
+          setUserName(userName);
+          setIsLoading(false);
+          window.location.pathname = '/';
+        });
+    } catch(e) {
+      console.log(e);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="App">
@@ -76,11 +89,22 @@ function App() {
         }
         </nav>
         </div>
+        {isLoading && <div className='loading'>
+                <div id="load">
+                    <div>G</div>
+                    <div>N</div>
+                    <div>I</div>
+                    <div>D</div>
+                    <div>A</div>
+                    <div>O</div>
+                    <div>L</div>
+                </div>
+            </div>}
         <Routes>
-          <Route path="/" element={<Home isAuth={isAuth}/>}/>
+          <Route path="/" element={<Home isAuth={isAuth} isLoading={isLoading} setIsLoading={setIsLoading}/>}/>
           <Route path="/addItem" element={<AddItem isAuth={isAuth} userName={userName}/>}/>
-          <Route path="/signIn" element={<SignIn setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth}/>}/>
-          <Route path="/signUp" element={<SignUp setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth}/>}/>
+          <Route path="/signIn" element={<SignIn setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth} error={error} setError={setError} />}/>
+          <Route path="/signUp" element={<SignUp setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth} error={error} />}/>
           <Route path="/messages" element={<Mailbox isAuth={isAuth} userName={userName} />}/>
         </Routes>
       </Router>

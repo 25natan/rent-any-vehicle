@@ -15,7 +15,6 @@ const animatedComponents = makeAnimated();
 const Home = props => {
     const [vehiclesToDisplay, setVehiclesToDisplay] = useState([]);
     const [noResults, setNoResults] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [toDisplaySideMenu, setToDisplaySideMenu] = useState(false);
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
@@ -25,16 +24,16 @@ const Home = props => {
 
     const getAllVehicles = async () => {
         try{
-            setIsLoading(true);
+            props.setIsLoading(true);
             const data = await getDocs(vehiclesCollectionRef);
             const vehiclesData = data.docs.map(doc => ({...doc.data(), id: doc.id }));
             setVehiclesToDisplay(vehiclesData.map(vehicle => {
                 return { ...vehicle, rateAvg: parseInt(lodash.sum(vehicle.rate) / vehicle.rate.length) || 0 }
             }));
-            setIsLoading(false);
+            props.setIsLoading(false);
         } catch (e) {
             console.log(e);
-            setIsLoading(false);
+            props.setIsLoading(false);
         }
     };
 
@@ -90,18 +89,7 @@ const Home = props => {
     return (
         <div className='homePage'>
             <div id='mobile-search-side-menu' className='mobile-search-side-menu fa fa-search' onClick={() => setToDisplaySideMenu(!toDisplaySideMenu)}></div>
-            <Search setVehiclesToDisplay={setVehiclesToDisplay} setNoResults={setNoResults} setToDisplaySideMenu={setToDisplaySideMenu} setIsLoading={setIsLoading} className={toDisplaySideMenu ? '' : 'hide'} />
-            {isLoading && <div className='loading'>
-                <div id="load">
-                    <div>G</div>
-                    <div>N</div>
-                    <div>I</div>
-                    <div>D</div>
-                    <div>A</div>
-                    <div>O</div>
-                    <div>L</div>
-                </div>
-            </div>}
+            <Search setVehiclesToDisplay={setVehiclesToDisplay} setNoResults={setNoResults} setToDisplaySideMenu={setToDisplaySideMenu} setIsLoading={props.setIsLoading} className={toDisplaySideMenu ? '' : 'hide'} />
             <div className='search-results'>
                 <div className='sort-by'>
                     <div className='sort-title'>Sort by</div>
@@ -114,7 +102,7 @@ const Home = props => {
                         onChange={sort} />
                 </div>
                 <div className='vehicles-list'>
-                    {vehiclesToDisplay?.map(vehicle => <VehicleItem data={vehicle} key={vehicle.id} deleteVehicle={deleteVehicle} setIsLoading={setIsLoading} />)}
+                    {vehiclesToDisplay?.map(vehicle => <VehicleItem data={vehicle} key={vehicle.id} deleteVehicle={deleteVehicle} setIsLoading={props.setIsLoading} />)}
                     {noResults && <div className='empty-results'>
                         <h2>Sorry.... We couldn't find any matches to your search </h2>
                         <img src='/no-results.jpg' alt='' />
