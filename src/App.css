@@ -376,7 +376,7 @@ button.submit-upload {
   background: black;
 }
 .logo img {
-  height: 70px;
+  height: 100px;
 }
 @media only screen and (max-width: 540px) {
   .mobile-search-side-menu {
