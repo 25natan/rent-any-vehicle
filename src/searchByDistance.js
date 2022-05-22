@@ -6,8 +6,6 @@ import { query, orderBy, startAt, endAt } from "firebase/firestore";
 
 
 const search = async ({types, location, radius}) => {
-    // const radius = 10 * 1000;
-
     const bounds = geohashQueryBounds(location, radius);
     const promises = [];
     for (const b of bounds) {
@@ -25,11 +23,12 @@ const search = async ({types, location, radius}) => {
                 const distanceInKm = distanceBetween([lat, lng], location);
                 const distanceInM = distanceInKm * 1000;
                 if (distanceInM <= radius) {
-                    matchingDocs.push(doc);
+                    matchingDocs.push({...(doc.data()), distance: distanceInM, id: doc.id});
                 }
             }
         }
-        return matchingDocs;
+        console.log(matchingDocs);
+        return matchingDocs.sort((a,b) => a.distance - b.distance);
     });
 }
 

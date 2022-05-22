@@ -18,7 +18,9 @@ const Search = ({setVehiclesToDisplay, setNoResults, setToDisplaySideMenu, class
         var autocomplete = new google.maps.places.Autocomplete(input);
           google.maps.event.addListener(autocomplete, 'place_changed', function () {
               var place = autocomplete.getPlace();
-              setLocation([place.geometry.location.lat(), place.geometry.location.lng()]);
+              const crd = [place.geometry.location.lat(), place.geometry.location.lng()]
+              setLocation(crd);
+
           });
     }
 
@@ -28,12 +30,11 @@ const Search = ({setVehiclesToDisplay, setNoResults, setToDisplaySideMenu, class
                 alert("Please fill all fields");
                 return;
             }
-            const docs = await search({types, location, radius});
-            const vehiclesData = docs.map(doc => ({...doc.data(), id: doc.id}));
+            const vehiclesData = await search({types, location, radius});
             setVehiclesToDisplay(vehiclesData.map(vehicle => {
                 return {...vehicle, rateAvg: parseInt(lodash.sum(vehicle.rate)/vehicle.rate.length)}
             }));
-            setNoResults(docs.length > 0 ? false : true);
+            setNoResults(vehiclesData.length > 0 ? false : true);
             setToDisplaySideMenu(false);
             setIsLoading(false);
         } catch (e) {
