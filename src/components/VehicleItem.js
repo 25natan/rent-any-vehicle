@@ -22,6 +22,7 @@ const MediaCard = ({data, deleteVehicle, userName}) => {
         <Typography gutterBottom variant="h5" component="div">
           {data.type}
         </Typography>
+        {/* <h4>data.placeName</h4> */}
         <div className='short-desc'>{data.desc}</div>
         <div className='stars'>{Array(data.rateAvg).fill().map(()=> <i key={Math.random()} className='fa fa-star fa-2x'></i>)}</div>
       </CardContent>
