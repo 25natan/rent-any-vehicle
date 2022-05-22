@@ -41,13 +41,13 @@ export default function SignIn(props) {
     const [userName, password] = [event.target.userName.value, event.target.password.value];
     const userDocRef = doc(db, USERS, userName);
     getDoc(userDocRef).then((userDocSnap) => {
-      if(userDocSnap.exists() && userDocSnap.data().password === event.target.password.value){
+      if(userDocSnap.exists() && userDocSnap.data().password === password){
         props.setIsAuth(true);
         props.setUserName(userName);
         window.location.pathname = '/';
       }
       else props.setError('Sorry... Username or password are not correct');
-    })
+    }).catch((e)=> console.log(e));
   };
 
   useEffect(() => {
