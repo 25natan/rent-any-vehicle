@@ -67,7 +67,7 @@ const Home = props => {
 
 
     useEffect(() => {
-        vehiclesToDisplay.length && localStorage.setItem('vehiclesToDisplay', JSON.stringify(vehiclesToDisplay));
+        vehiclesToDisplay?.length && localStorage.setItem('vehiclesToDisplay', JSON.stringify(vehiclesToDisplay));
     }, [vehiclesToDisplay])
 
     const deleteVehicle = async id => {

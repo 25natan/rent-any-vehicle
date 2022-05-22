@@ -44,7 +44,7 @@ const VehicleItemModal = data => {
       }
       const renterData = userDocSnap.data();
       setRenterDetailes(renterData);
-      document.getElementById(`card-${data.id}`).click();
+      document.getElementById(`card-${data.id}`)?.click();
       });
   };
 

@@ -69,7 +69,7 @@ function App() {
           <Link to='/'>Home</Link>
           <Link to='/addItem'>Add Vehicle</Link>
           <Link to='#' onClick={signUserOut}>Sign Out</Link>
-          <div className=" mailbox-nav-btn"><Link to='messages'><i className="fa fa-envelope" aria-hidden="true"></i></Link></div>
+          {/* <div className=" mailbox-nav-btn"><Link to='messages'><i className="fa fa-envelope" aria-hidden="true"></i></Link></div> */}
           </>
         }
         </nav>
