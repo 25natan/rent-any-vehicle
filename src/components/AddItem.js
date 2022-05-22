@@ -22,17 +22,30 @@ import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
 import {v4} from 'uuid';
 import {vihecleTypes} from '../constants';
 import { TextareaAutosize } from "@mui/material";
+import { geohashForLocation } from "geofire-common";
 
 const theme = createTheme();
 
 export default function AddItem({isAuth, userName}) {
   const [type, setType] = useState(null);
+  const [location, setLocation] = useState([0.5,0.5]);
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState(null);
   const [images, setImages] = useState([]);
 
   let navigate = useNavigate();
   const vehiclesCollectionRef = collection(db, "vehicles");
+
+  const initialize = () => {
+    const google = window.google;
+    var input = document.getElementById('location-field');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+      google.maps.event.addListener(autocomplete, 'place_changed', function () {
+          var place = autocomplete.getPlace();
+          const crd = [place.geometry.location.lat(), place.geometry.location.lng()]
+          setLocation(crd);
+      });
+  }
 
   const addVehiclesToDb = async () => {
     try{
@@ -55,6 +68,7 @@ export default function AddItem({isAuth, userName}) {
 
   useEffect(() => {
     if(!isAuth)  navigate('/signin');
+    else initialize();
   },[]);
   
   return (
@@ -123,6 +137,8 @@ export default function AddItem({isAuth, userName}) {
               setDesc(e?.target?.value);
             }}
           />
+          <span className='location'><h4>Location</h4>
+          <input  id={'location-field'} required /></span>
           <PhotoCamera sx={{ margin: "40px 0 20px 0" }} />
           <ImageUploader images={images} setImages={setImages} />{" "}
         </Box>

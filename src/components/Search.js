@@ -20,7 +20,6 @@ const Search = ({setVehiclesToDisplay, setNoResults, setToDisplaySideMenu, class
               var place = autocomplete.getPlace();
               const crd = [place.geometry.location.lat(), place.geometry.location.lng()]
               setLocation(crd);
-
           });
     }
 
