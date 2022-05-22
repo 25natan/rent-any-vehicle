@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { getDocs, collection, doc, deleteDoc } from 'firebase/firestore';
-import {db} from '../firebase-config';
+import { db } from '../firebase-config';
 import VehicleItem from './VehicleItem';
 import { useNavigate } from 'react-router-dom';
 import Search from './Search';
@@ -8,6 +8,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { sortTypes } from '../constants';
 import Item from './Item';
+import { distanceBetween } from 'geofire-common';
 var lodash = require('lodash');
 
 const animatedComponents = makeAnimated();
@@ -19,29 +20,29 @@ const Home = props => {
     const [toDisplaySideMenu, setToDisplaySideMenu] = useState(false);
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
-    
+
     let navigate = useNavigate();
     const vehiclesCollectionRef = collection(db, "vehicles");
 
     const getAllVehicles = async () => {
         setIsLoading(true);
         const data = await getDocs(vehiclesCollectionRef);
-        const vehiclesData = data.docs.map(doc => ({...doc.data(), id: doc.id}));
+        const vehiclesData = data.docs.map(doc => ({...doc.data(), id: doc.id }));
         setVehiclesToDisplay(vehiclesData.map(vehicle => {
-            return {...vehicle, rateAvg: parseInt(lodash.sum(vehicle.rate)/vehicle.rate.length)}
+            return { ...vehicle, rateAvg: parseInt(lodash.sum(vehicle.rate) / vehicle.rate.length) }
         }));
         setVehiclesToDisplay();
         setIsLoading(false);
     };
 
     useEffect(() => {
-        try{
-            if(!props.isAuth)  navigate('/signin');
+        try {
+            if (!props.isAuth) navigate('/signin');
             // forceUpdate();
             const vehiclesFronLocalStorage = localStorage.getItem('vehiclesToDisplay');
-            if(vehiclesFronLocalStorage) {
+            if (vehiclesFronLocalStorage) {
                 setVehiclesToDisplay(JSON.parse(vehiclesFronLocalStorage));
-                return;   
+                return;
             }
             getAllVehicles();
         } catch (e) {
@@ -51,36 +52,28 @@ const Home = props => {
     }, []);
 
     const sortByLocation = () => {
-        setVehiclesToDisplay(vehiclesToDisplay.sort((a, b) => (a.price < b.price ? 1 : -1)));
-
-        // vehiclesToDisplay.sort((a, b) =>{
-        //     return distance(a['geocode'], myLocation).compareTo(distance(b['geocode'], myLocation));
-        //   });
-
-
-            // // Current user location - mocked for sake of simplicity
-            //  const coordinates = { latitude: "48.669", longitude: "-4.32913" };
-            
-            //  const center = [coordinates.latitude, coordinates.longitude];
-             
-            // const  distanceInKm  =  distanceBetween([lat,  lng],  center);
-            
-            // return  [...vehicles].sort((a,  b) => {
-            // const distanceFromA =  distanceBetween([a.coordinate.lat,  a.coordinate.lng],  center)  
-            // const distanceFromB =  distanceBetween([b.coordinate.lat,  b.coordinate.lng],  center);
-            // return  distanceFromA - distanceFromB 
-            // });
+        if (vehiclesToDisplay.length > 0 && vehiclesToDisplay[0].distance !== undefined)
+            setVehiclesToDisplay(vehiclesToDisplay.sort((a, b) => a.distance - b.distance));
+        else
+            navigator.geolocation.getCurrentPosition(sortByDeviceLocation);
     };
+
+    const sortByDeviceLocation = (deviceLocation) => {
+        const crd = [deviceLocation.coords.latitude, deviceLocation.coords.longitude];
+        vehiclesToDisplay.forEach(vehicle => 
+            vehicle['distance'] = 1000 * distanceBetween(crd, [vehicle.lat, vehicle.lng]));
+        setVehiclesToDisplay(vehiclesToDisplay.sort((a, b) => a.distance - b.distance));
+    }
 
     const sortByPrice = () => {
         setVehiclesToDisplay(vehiclesToDisplay.sort((a, b) => (a.price > b.price ? 1 : -1)));
     };
 
     const sort = e => {
-        if(e.value === 'location') sortByLocation();
+        if (e.value === 'location') sortByLocation();
         else if (e.value === 'price') sortByPrice();
-         forceUpdate()
-    } 
+        forceUpdate()
+    }
 
 
     useEffect(() => {
@@ -88,20 +81,20 @@ const Home = props => {
     }, [vehiclesToDisplay])
 
     const deleteVehicle = async id => {
-        try{
-        const vehicleDoc = doc(db, 'vehicles', id);
-        await deleteDoc(vehicleDoc);
-        setVehiclesToDisplay(vehiclesToDisplay.filter(vehicle => vehicle.id !== id));
-        } catch(e){
+        try {
+            const vehicleDoc = doc(db, 'vehicles', id);
+            await deleteDoc(vehicleDoc);
+            setVehiclesToDisplay(vehiclesToDisplay.filter(vehicle => vehicle.id !== id));
+        } catch (e) {
             console.log(e);
         }
     };
 
     return (
         <div className='homePage'>
-            <div id='mobile-search-side-menu' className='mobile-search-side-menu fa fa-search' onClick={()=> setToDisplaySideMenu(!toDisplaySideMenu)}></div>
-            <Search  setVehiclesToDisplay={setVehiclesToDisplay} setNoResults={setNoResults} setToDisplaySideMenu={setToDisplaySideMenu} setIsLoading={setIsLoading} className={toDisplaySideMenu ? '' : 'hide'}/>
-                {isLoading && <div className='loading'>
+            <div id='mobile-search-side-menu' className='mobile-search-side-menu fa fa-search' onClick={() => setToDisplaySideMenu(!toDisplaySideMenu)}></div>
+            <Search setVehiclesToDisplay={setVehiclesToDisplay} setNoResults={setNoResults} setToDisplaySideMenu={setToDisplaySideMenu} setIsLoading={setIsLoading} className={toDisplaySideMenu ? '' : 'hide'} />
+            {isLoading && <div className='loading'>
                 <div id="load">
                     <div>G</div>
                     <div>N</div>
@@ -110,28 +103,28 @@ const Home = props => {
                     <div>A</div>
                     <div>O</div>
                     <div>L</div>
-                    </div>
+                </div>
             </div>}
             <div className='search-results'>
-            <div className='sort-by'>
-                <div className='sort-title'>Sort by</div>
-                 <Select 
-                required
-                closeMenuOnSelect={false}
-                placeholder='select...'
-                components={animatedComponents} 
-                options={sortTypes.map(type => {return {value: type, label: type}})} 
-                onChange={sort}/>
+                <div className='sort-by'>
+                    <div className='sort-title'>Sort by</div>
+                    <Select
+                        required
+                        closeMenuOnSelect={false}
+                        placeholder='select...'
+                        components={animatedComponents}
+                        options={sortTypes.map(type => { return { value: type, label: type } })}
+                        onChange={sort} />
                 </div>
-            <div className='vehicles-list'>
-                {/* <Item/> */}
-            {vehiclesToDisplay?.map(vehicle =><VehicleItem data={vehicle}  key={vehicle.id} deleteVehicle={deleteVehicle} setIsLoading={setIsLoading}/> )}
-            {noResults && <div className='empty-results'> 
-                <h2>Sorry.... We couldn't find any matches to your search </h2>
-                <img src='/no-results.jpg' alt=''/>
-                </div>}
-            </div> 
-            </div> 
+                <div className='vehicles-list'>
+                    {/* <Item/> */}
+                    {vehiclesToDisplay?.map(vehicle => <VehicleItem data={vehicle} key={vehicle.id} deleteVehicle={deleteVehicle} setIsLoading={setIsLoading} />)}
+                    {noResults && <div className='empty-results'>
+                        <h2>Sorry.... We couldn't find any matches to your search </h2>
+                        <img src='/no-results.jpg' alt='' />
+                    </div>}
+                </div>
+            </div>
         </div>
     );
 };
