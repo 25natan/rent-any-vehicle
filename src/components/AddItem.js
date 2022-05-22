@@ -15,24 +15,40 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import ImageUploader from "../ImageUpload";
 import { useState } from "react";
-import { setDoc, collection, deleteDoc, doc } from "firebase/firestore";
+import { setDoc, collection, deleteDoc, doc , addDoc} from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { auth, db, storage } from "../firebase-config";
 import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
 import {v4} from 'uuid';
 import {vihecleTypes} from '../constants';
 import { TextareaAutosize } from "@mui/material";
+import { geohashForLocation } from "geofire-common";
 
 const theme = createTheme();
 
 export default function AddItem({isAuth, userName}) {
   const [type, setType] = useState(null);
+  const [location, setLocation] = useState([0.5,0.5]);
+  const [place, setPlace] = useState('place?');
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState(null);
   const [images, setImages] = useState([]);
 
   let navigate = useNavigate();
   const vehiclesCollectionRef = collection(db, "vehicles");
+
+  const initialize = () => {
+    const google = window.google;
+    var input = document.getElementById('location-field');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+      google.maps.event.addListener(autocomplete, 'place_changed', function () {
+          var place = autocomplete.getPlace();
+          const crd = [place.geometry.location.lat(), place.geometry.location.lng()]
+          const placeName = place.formatted_address;
+          setLocation(crd);
+          setPlace(placeName);
+      });
+  }
 
   const addVehiclesToDb = async () => {
     try{
@@ -43,9 +59,9 @@ export default function AddItem({isAuth, userName}) {
       }));
       const imagesRef = ref(storage, `images/${folderUniqueId}`);
       const imagesList = await listAll(imagesRef);
-      const id = v4();
       const imagesItemUrls = await Promise.all(imagesList.items.map(async item => {return await getDownloadURL(item)}));
-      await setDoc(vehiclesCollectionRef, {type, price, desc, imagesUrls: imagesItemUrls, renter: userName, id});
+      await addDoc(vehiclesCollectionRef, {type, price, desc, imagesUrls: imagesItemUrls, renter: userName,
+        lat:location[0], lng:location[1], rate:[], geohash: geohashForLocation(location), placeName: place});
       alert('Item Upladed!');
     } catch (e) {
       console.log(e);
@@ -55,6 +71,7 @@ export default function AddItem({isAuth, userName}) {
 
   useEffect(() => {
     if(!isAuth)  navigate('/signin');
+    else initialize();
   },[]);
   
   return (
@@ -123,6 +140,8 @@ export default function AddItem({isAuth, userName}) {
               setDesc(e?.target?.value);
             }}
           />
+          <span className='location'><h4>Location</h4>
+          <input  id={'location-field'} required /></span>
           <PhotoCamera sx={{ margin: "40px 0 20px 0" }} />
           <ImageUploader images={images} setImages={setImages} />{" "}
         </Box>
