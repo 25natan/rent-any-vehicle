@@ -232,8 +232,12 @@ nav a {
   margin-left: 29px;
   align-items: center;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 10px 30px;
+}
+
+.sort-by .css-1s2u09g-control {
+  width: 150px;
 }
 
 .sort-title {
@@ -529,7 +533,7 @@ button.submit-upload {
 
 .loader-circle-9 {
   position: absolute;
-  top: 50%;
+  top: 50vh;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 70px;
@@ -595,4 +599,45 @@ button.submit-upload {
   100% {
       transform: rotate(405deg);
   }
+}
+
+.msgToMailBox {
+  display:none;
+  padding:15px;
+  flex-direction: column;
+}
+
+.inmail-mag {
+  padding:15px;
+  border-radius:5px;
+  margin:7px;
+}
+.vehicle-card button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root.delete-vehicle.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  font-size: x-large;
+}
+
+.msg-card {
+  border: 3px solid black;
+  border-radius: 3px;
+  background: aliceblue;
+  width: 80vw;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  font-size: 20px;
+}
+
+.msg-card-header {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: solid 3px black;
+  background: #ffe7cd;
+  height: 57px;
+  align-items: center;
+}
+.msg-card-body {
+  height: 100px;
 }
