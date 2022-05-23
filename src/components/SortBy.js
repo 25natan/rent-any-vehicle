@@ -17,7 +17,6 @@ const SortBy = ({sortBy, setSortBy, maxPrice, setMaxPrice}) => {
                 options={sortTypes.map(type => {return {value: type, label: type}})} 
                 onChange={e => {
                     setSortBy(e.value);
-                    console.log('e',e);
                 }}/>
             
             <button className='filter'>Filter</button>

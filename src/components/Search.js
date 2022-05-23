@@ -3,6 +3,7 @@ import {vihecleTypes} from '../constants';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { search } from '../searchByDistance';
+import { distanceBetween } from 'geofire-common';
 var lodash = require('lodash');
 
 const animatedComponents = makeAnimated();
@@ -30,9 +31,13 @@ const Search = ({setVehiclesToDisplay, setNoResults, setToDisplaySideMenu, class
                 return;
             }
             const vehiclesData = await search({types, location, radius});
-            setVehiclesToDisplay(vehiclesData.map(vehicle => {
-                return {...vehicle, rateAvg: parseInt(lodash.sum(vehicle.rate)/vehicle.rate.length) || 0}
-            }));
+            navigator.geolocation.getCurrentPosition(deviceLocation => {
+                const crd = [deviceLocation.coords.latitude, deviceLocation.coords.longitude];
+                vehiclesData.forEach(vehicle => vehicle['distance'] = distanceBetween(crd, [vehicle.lat, vehicle.lng]));
+                setVehiclesToDisplay(vehiclesData.map(vehicle => {
+                    return {...vehicle, rateAvg: parseInt(lodash.sum(vehicle.rate)/vehicle.rate.length) || 0}
+                }));
+            });
             setNoResults(vehiclesData.length > 0 ? false : true);
             setToDisplaySideMenu(false);
             setIsLoading(false);
@@ -63,7 +68,7 @@ const Search = ({setVehiclesToDisplay, setNoResults, setToDisplaySideMenu, class
             <span className='location'><h4>Location</h4>
 
             <input  id={'location-field'} required /></span>
-            <div className='radius'><div className='radius-title'>radius</div><input type='number' min='50' onChange={(e)=> {setRadius(e.target.value *1000)}}></input></div>
+            <div className='radius'><div className='radius-title'>radius</div><input type='number' min='0.5' onChange={(e)=> {setRadius(e.target.value *1000)}}></input></div>
             <button className='search-btn' onClick={sumbitSearch}>Search For Me</button>
         </div>
     );

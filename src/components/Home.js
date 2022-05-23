@@ -27,9 +27,13 @@ const Home = props => {
             props.setIsLoading(true);
             const data = await getDocs(vehiclesCollectionRef);
             const vehiclesData = data.docs.map(doc => ({...doc.data(), id: doc.id }));
-            setVehiclesToDisplay(vehiclesData.map(vehicle => {
-                return { ...vehicle, rateAvg: parseInt(lodash.sum(vehicle.rate) / vehicle.rate.length) || 0 }
-            }));
+            navigator.geolocation.getCurrentPosition(deviceLocation => {
+                const crd = [deviceLocation.coords.latitude, deviceLocation.coords.longitude];
+                vehiclesData.forEach(vehicle => vehicle.distance = distanceBetween(crd, [vehicle.lat, vehicle.lng]));
+                setVehiclesToDisplay(vehiclesData.map(vehicle => {
+                    return { ...vehicle, rateAvg: parseInt(lodash.sum(vehicle.rate) / vehicle.rate.length) || 0 }
+                }));
+            });
             props.setIsLoading(false);
         } catch (e) {
             console.log(e);
@@ -39,42 +43,28 @@ const Home = props => {
 
     useEffect(() => {
             if (!props.isAuth) navigate('/signin');
-            const vehiclesFronLocalStorage = localStorage.getItem('vehiclesToDisplay');
-            if (vehiclesFronLocalStorage) {
-                setVehiclesToDisplay(JSON.parse(vehiclesFronLocalStorage));
-                return;
-            }
+  
             getAllVehicles();
     }, []);
 
     const sortByLocation = () => {
-        if (vehiclesToDisplay.length > 0 && vehiclesToDisplay[0].distance !== undefined)
-            setVehiclesToDisplay(vehiclesToDisplay.sort((a, b) => a.distance - b.distance));
-        else
-            navigator.geolocation.getCurrentPosition(sortByDeviceLocation);
-    };
-
-    const sortByDeviceLocation = (deviceLocation) => {
-        const crd = [deviceLocation.coords.latitude, deviceLocation.coords.longitude];
-        vehiclesToDisplay.forEach(vehicle => 
-            vehicle['distance'] = 1000 * distanceBetween(crd, [vehicle.lat, vehicle.lng]));
         setVehiclesToDisplay(vehiclesToDisplay.sort((a, b) => a.distance - b.distance));
-    }
+    };
 
     const sortByPrice = () => {
         setVehiclesToDisplay(vehiclesToDisplay.sort((a, b) => (a.price > b.price ? 1 : -1)));
+    };
+    
+    const sortByRate = () => {
+        setVehiclesToDisplay(vehiclesToDisplay.sort((a, b) => (a.rate < b.rate ? 1 : -1)));
     };
 
     const sort = e => {
         if (e.value === 'location') sortByLocation();
         else if (e.value === 'price') sortByPrice();
+        else if (e.value === 'rate') sortByRate();
         forceUpdate()
     }
-
-
-    useEffect(() => {
-        vehiclesToDisplay?.length && localStorage.setItem('vehiclesToDisplay', JSON.stringify(vehiclesToDisplay));
-    }, [vehiclesToDisplay])
 
     const deleteVehicle = async id => {
         try {
@@ -105,7 +95,7 @@ const Home = props => {
                     {vehiclesToDisplay?.map(vehicle => <VehicleItem data={vehicle} key={vehicle.id} deleteVehicle={deleteVehicle} setIsLoading={props.setIsLoading} />)}
                     {noResults && <div className='empty-results'>
                         <h2>Sorry.... We couldn't find any matches to your search </h2>
-                        <img src='/no-results.jpg' alt='' />
+                        <img src='/no-results.jpg' width='300px' alt='' />
                     </div>}
                 </div>
             </div>

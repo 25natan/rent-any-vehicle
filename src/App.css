@@ -110,6 +110,9 @@ nav a {
 .signin-with-google-btn:active {
   background-color: #eeeeee;
 }
+.add-vehicle-page .MuiButton-outlinedPrimary.MuiButton-sizeSmall.MuiButton-outlinedSizeSmall.MuiButtonBase-root.css-1k23hlb-MuiButtonBase-root-MuiButton-root:hover {
+  background: #1565c0;
+}
 .signin-with-google-btn:focus {
   outline: none;
   box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.25),
@@ -255,8 +258,8 @@ nav a {
 }
 
 .vehicle-card .price {
-  position: absolute;
-  bottom: 5px;
+  font-size: 20px;
+  font-weight: 600;
 }
 .vehicle-card .short-desc {
   text-overflow: ellipsis;
@@ -270,6 +273,13 @@ nav a {
 }
 .add-item-desc {
   font-family: 'Roboto' !important;
+}
+.add-vehicle-page input {
+  width: 192px;
+  height: 37.5px;
+  text-align: center;
+  border: solid gray 0.1px;
+  border-radius: 3px;
 }
 
 .vehicle-card .modal-footer {
@@ -299,13 +309,43 @@ nav a {
 }
 .vehicle-card .MuiCardActions-root.MuiCardActions-spacing.css-1t6e9jv-MuiCardActions-root {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 
+.add-vehicle-page .css-b62m3t-container {
+  width: 196px;
+}
+.add-vehicle-page .css-17pm3r2-MuiIcon-root {
+  color: #c67f22;
+}
+
+.add-vehicle-page button {
+  background: #c67f22;
+  color: white;
+}
+
 .vehicle-card .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.css-1ri6ub7-MuiPaper-root-MuiCard-root {
-  height: 300px;
+  height: 400px;
   width: 295px;
 }
+textarea.add-item-desc {
+  max-width: fit-content;
+}
+
+.MuiCardContent-root.small-card-footer.css-46bh2p-MuiCardContent-root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100px;
+  bottom: -4px;
+}
+
 .search-results {
   padding-left: 15px;
 }
@@ -329,7 +369,7 @@ nav a {
 }
 
 .stars {
-  color: gold;
+  color: #ffd700;
 }
 
 .upload__image-wrapper {
@@ -341,7 +381,7 @@ button.submit-upload {
   border-radius: 3px;
   color: white;
   margin-bottom: 50px;
-  padding: 5px 11px;
+  padding: 5px 23px;
 }
 
 @media only screen and (max-width: 790px) {
@@ -649,3 +689,12 @@ button.submit-upload {
    linear-gradient(#25d366,#25d366) 14% 84%/16% 16% no-repeat,
    radial-gradient(#25d366 60%,transparent 0);
 }
+
+/* .vehicle-card {
+  margin: 10px;
+  height: min-content;
+  width: 345px;
+  position: relative;
+  border: solid 0.5px;
+  padding-bottom: 30px;
+} */

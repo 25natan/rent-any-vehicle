@@ -23,10 +23,14 @@ import {v4} from 'uuid';
 import {vihecleTypes} from '../constants';
 import { TextareaAutosize } from "@mui/material";
 import { geohashForLocation } from "geofire-common";
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+
+const animatedComponents = makeAnimated();
 
 const theme = createTheme();
 
-export default function AddItem({isAuth, userName}) {
+export default function AddItem({isAuth, userName,  setIsLoading}) {
   const [type, setType] = useState(null);
   const [location, setLocation] = useState([0.5,0.5]);
   const [place, setPlace] = useState('place?');
@@ -50,8 +54,12 @@ export default function AddItem({isAuth, userName}) {
       });
   }
 
-  const addVehiclesToDb = async () => {
+  const addVehiclesToDb = async event => {
+    event.preventDefault();
     try{
+      setIsLoading(true);
+      const [type, price, desc] = [event.target.type.value, event.target.price.value, event.target.desc.value];
+      console.log('type, price, desc', type, price, desc);
       const folderUniqueId = v4();
       await Promise.all(images.map(async img => {
         const imageRef = ref(storage, `images/${folderUniqueId}/${img?.file?.name}`);
@@ -62,9 +70,11 @@ export default function AddItem({isAuth, userName}) {
       const imagesItemUrls = await Promise.all(imagesList.items.map(async item => {return await getDownloadURL(item)}));
       await addDoc(vehiclesCollectionRef, {type, price, desc, imagesUrls: imagesItemUrls, renter: userName,
         lat:location[0], lng:location[1], rate:[], geohash: geohashForLocation(location), placeName: place});
+        setIsLoading(false);
       alert('Item Upladed!');
     } catch (e) {
       console.log(e);
+      setIsLoading(false);
     }
     navigate('/');
   }
@@ -75,78 +85,34 @@ export default function AddItem({isAuth, userName}) {
   },[]);
   
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs" style={{ marginTop: "100px" }}>
-        {/* { <CssBaseline /> */}
-        <Box 
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            border: "10px",
-          }}
-        >
-          <Icon color="primary" sx={{ fontSize: 40, marginBottom: "20px" }}>
-            add_circle
-          </Icon>
-          <Typography
-            component="h1"
-            variant="h4"
-            style={{ marginBottom: "30px" }}
-          >
-            Add Vehicle
-          </Typography>
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={vihecleTypes}
-            onChange={(e) => {
-              setType(e?.target?.innerText);
-            }}
-            sx={{ width: 300 }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Vehicle Type"
-                style={{ marginBottom: "30px" }}
-              />
-            )}
-          />
-          <TextField
-            id="outlined-number"
-            label="Price (for houre)"
-            type="number"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            sx={{ width: 300 }}
-            onChange={(e) => {
-              setPrice(parseInt(e?.target?.value));
-            }}
-          />
-           <Typography
-            style={{ marginTop: "12px"}}
-          >
-          Description
-          </Typography>
-        <TextareaAutosize
-        className="add-item-desc"
+    <div className="add-vehicle-page">
+        <form className="signup-form" onSubmit={addVehiclesToDb}>
+        <h1>Add Vehicle</h1>
+        <Icon color="primary" sx={{ fontSize: 40, marginBottom: "20px" }}>
+           add_circle
+         </Icon>
+         <label>Vehicle Type</label>
+          <Select
+                name='type' 
+                required
+                options={vihecleTypes.map(type => {return {value: type, label: type}})} 
+            />
+          <label>Location</label>
+          <input  name='location' id={'location-field'} required />
+          <label>Price ($ for houre)</label>
+          <input type='number' min='0' name='price'></input>
+          <label>Description</label>
+          <textarea
+          name='desc'
+            className="add-item-desc"
             aria-label="Description"
-            minRows={4}
-            placeholder="Add some words..."
-            style={{ width: 292 , fontFamily: 'ariel'}}
-            onChange={(e) => {
-              setDesc(e?.target?.value);
-            }}
+            placeholder="Add some words..."  
           />
-          <span className='location'><h4>Location</h4>
-          <input  id={'location-field'} required /></span>
           <PhotoCamera sx={{ margin: "40px 0 20px 0" }} />
-          <ImageUploader images={images} setImages={setImages} />{" "}
-        </Box>
-      </Container>
-      <button className="submit-upload"  onClick={addVehiclesToDb}>Submit</button>
-    </ThemeProvider>
+         <ImageUploader images={images} setImages={setImages} />{" "}
+          <button className="submit-upload" type='submit'>Submit</button>
+        <span className="error" aria-live="polite">{}</span>
+        </form>
+  </div>
   );
 }
