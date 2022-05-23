@@ -78,7 +78,7 @@ function App() {
       <Router>
       <div className="header">
       <div className="logo"> <img src='/logo.png' alt='logo'/></div>
-        <nav>
+        <nav className="main-nav">
           {!isAuth ? <Link to='/signin'>Sign In</Link> :
           <>
           <Link to='/'>Home</Link>

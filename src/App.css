@@ -63,7 +63,7 @@ body {
   min-width: 100%;
 }
 
-nav {
+nav.main-nav {
   margin: 0;
   width: 100%;
   height: 80px;
@@ -75,7 +75,26 @@ nav {
   text-decoration: none;
 }
 
-nav a {
+nav.mailbox-nav {
+  font-size: 20px;
+  background: aliceblue;
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+  height: 55px;
+  margin-right: auto;
+  width: 80%;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+nav.mailbox-nav div {
+  cursor: pointer;
+  text-decoration: none;
+  margin: 10px;
+  font-size: 20px;
+}
+
+nav.main-nav a {
   color: white;
   text-decoration: none;
   margin: 10px;
@@ -622,22 +641,43 @@ button.submit-upload {
 .msg-card {
   border: 3px solid black;
   border-radius: 3px;
-  background: aliceblue;
   width: 80vw;
   display: flex;
   flex-direction: column;
   margin: auto;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .msg-card-header {
-  display: flex;
-  justify-content: space-around;
   border-bottom: solid 3px black;
-  background: #ffe7cd;
-  height: 57px;
-  align-items: center;
+  background: #ececece6;
+  padding: 10px;
+  height: fit-content;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
+
 .msg-card-body {
-  height: 100px;
+  min-height: 100px;
+  padding: 15px;
+}
+
+.mail-box {
+  margin-top: 50px;
+}
+
+.mail-card {
+  margin-bottom: 35px;
+}
+.vehicle-card #approve {
+  display: none;
+}
+
+.vehicle-card .modal-footer button{
+  background: black;
+  border: none;
+  display: block;
+  margin: 10px;
+  color: white;
+  border-radius: 3px;
 }

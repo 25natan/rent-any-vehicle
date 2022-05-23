@@ -1,5 +1,6 @@
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, Firestore, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
+import { v4 } from 'uuid';
 import { db } from '../firebase-config';
 import { loadRate } from '../rateHelper';
 
@@ -36,8 +37,12 @@ const VehicleItemModal = (data, currentUserName) => {
     try{
     console.log('msg',message);
     console.log('currentUserName',currentUserName);
-    const userDocRef = doc(db, 'mail-box', data.renter);
-    await setDoc(userDocRef, {message: message, sender: currentUserName});
+    const userDocRef = doc(db, 'mail-box', v4());
+    const now = Timestamp.now()
+    console.log('date', now);
+    await setDoc(userDocRef, {message: message, from: currentUserName, to: data.renter, vehicle: data.id, date: now});
+    document.getElementById('msgToMailBox').style.display = 'none';
+    document.getElementById('approve').style.display = 'flex';
     } catch (error) {
       console.log(error);
     }
@@ -89,7 +94,7 @@ const VehicleItemModal = (data, currentUserName) => {
                     {!renterDetailes ?
                     <button type="button" className="btn btn-primary" onClick={getRenterDetailes}>Contact Renter</button>
                         :<div className='contact-renter'>
-                          <div className='inmail-msg' onClick={() => document.getElementById('msgToMailBox').style.display = 'flex'}>send message</div>
+                          <button className='inmail-msg' onClick={() => document.getElementById('msgToMailBox').style.display = 'flex'}>send message to mail box</button>
                           <div className='msgToMailBox' id="msgToMailBox">
                             <textarea onChange={(e)=> setMessage(e.target.value)}></textarea> 
                             <button onClick={msgToMailBox}>Send</button>
@@ -99,6 +104,7 @@ const VehicleItemModal = (data, currentUserName) => {
                         <a href={`mailto:${renterDetailes.email?.replaceAll('"', '')}`}> <i className="fa fa-envelope fa-2x" aria-hidden="true"></i></a>
                     </div>
                     }
+                    <div id='approve'>message sent</div>
                     <div className='error'>{error}</div>
                   </div>
             </div>
