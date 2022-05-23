@@ -1,6 +1,5 @@
 import { db } from "./firebase-config";
-import { geohashForLocation } from "geofire-common";
-import { collection, doc, setDoc ,getDocs, where} from "firebase/firestore";
+import { collection, getDocs, where} from "firebase/firestore";
 import { geohashQueryBounds, distanceBetween} from "geofire-common";
 import { query, orderBy, startAt, endAt } from "firebase/firestore"; 
 
@@ -31,4 +30,4 @@ const search = async ({types, location, radius}) => {
     });
 }
 
-export { search};
+export { search };

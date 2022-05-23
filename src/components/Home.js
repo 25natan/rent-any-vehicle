@@ -91,7 +91,7 @@ const Home = props => {
                         onChange={sort} />
                 </div>
                 <div className='vehicles-list'>
-                    {vehiclesToDisplay?.map(vehicle => <VehicleItem data={vehicle} key={vehicle.id} deleteVehicle={deleteVehicle} setIsLoading={props.setIsLoading} />)}
+                    {vehiclesToDisplay?.map(vehicle => <VehicleItem data={vehicle} key={vehicle.id} deleteVehicle={deleteVehicle} setIsLoading={props.setIsLoading} userName={props.userName} />)}
                     {noResults && <div className='empty-results'>
                         <h2>Sorry.... We couldn't find any matches to your search </h2>
                         <img src='/no-results.jpg' width='300px' alt='' />

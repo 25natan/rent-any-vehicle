@@ -37,7 +37,7 @@ const VehicleItem = ({data, deleteVehicle, userName}) => {
       <div className='small-vehicle-item'>
       { MediaCard({data, deleteVehicle, userName})}
       </div>
-      {VehicleItemModal(data)}
+      {VehicleItemModal(data, userName)}
     </div>; 
 };
 

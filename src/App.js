@@ -84,14 +84,14 @@ function App() {
           <Link to='/'>Home</Link>
           <Link to='/addItem'>Add Vehicle</Link>
           <Link to='#' onClick={signUserOut}>Sign Out</Link>
-          {/* <div className=" mailbox-nav-btn"><Link to='messages'><i className="fa fa-envelope" aria-hidden="true"></i></Link></div> */}
+          <div className=" mailbox-nav-btn"><Link to='messages'><i className="fa fa-envelope" aria-hidden="true"></i></Link></div>
           </>
         }
         </nav>
         {isLoading &&  <div className="loader-circle-9">Loading<span></span></div>} 
         </div>
         <Routes>
-          <Route path="/*" element={<Home isAuth={isAuth} isLoading={isLoading} setIsLoading={setIsLoading}/>}/>
+          <Route path="/*" element={<Home isAuth={isAuth} isLoading={isLoading} setIsLoading={setIsLoading} userName={userName} />}/>
           <Route path="/addItem" element={<AddItem isAuth={isAuth} userName={userName}  setIsLoading={setIsLoading}/>}/>
           <Route path="/signIn" element={<SignIn setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth} error={error} setError={setError} />}/>
           <Route path="/signUp" element={<SignUp setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth} error={error} />}/>
