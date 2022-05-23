@@ -27,7 +27,6 @@ const search = async ({types, location, radius}) => {
                 }
             }
         }
-        console.log(matchingDocs);
         return matchingDocs.sort((a,b) => a.distance - b.distance);
     });
 }

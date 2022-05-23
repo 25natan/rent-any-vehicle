@@ -1,14 +1,47 @@
-import { sendRate } from 'firebase/auth';
-import { arrayUnion, collection, doc, getDoc, query, updateDoc, where } from 'firebase/firestore';
-import React, { useCallback, useEffect, useState } from 'react';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
 import { db } from '../firebase-config';
 import $ from 'jquery';
 
 const USERS = 'users';
+function setRating(rating) {
+  $('#rating-input').val(rating);
+  // fill all the stars assigning the '.selected' class
+  $('.rating-star').removeClass('fa-star-o').addClass('selected');
+  // empty all the stars to the right of the mouse
+  $('.rating-star#rating-' + rating + ' ~ .rating-star').removeClass('selected').addClass('fa-star-o');
+}
 
+const loadRate = () => {
+  $('.rating-star')
+.on('mouseover', function(e) {
+  var rating = $(e.target).data('rating');
+  // fill all the stars
+  $('.rating-star').removeClass('fa-star-o').addClass('fa-star');
+  // empty all the stars to the right of the mouse
+  $('.rating-star#rating-' + rating + ' ~ .rating-star').removeClass('fa-star').addClass('fa-star-o');
+})
+.on('mouseleave', function (e) {
+  // empty all the stars except those with class .selected
+  $('.rating-star').removeClass('fa-star').addClass('fa-star-o');
+})
+.on('click', function(e) {
+  var rating = $(e.target).data('rating');
+  setRating(rating);
+})
+.on('keyup', function(e){
+  // if spacebar is pressed while selecting a star
+  if (e.keyCode === 32) {
+    // set rating (same as clicking on the star)
+    var rating = $(e.target).data('rating');
+    setRating(rating);
+  }
+});
+};
 
 const VehicleItemModal = data => {
   const [renterDetailes, setRenterDetailes] = useState(null);
+const [error, setError] = useState('');
 
   const sendRate = async (num) => {
     try{
@@ -19,6 +52,7 @@ const VehicleItemModal = data => {
     });
       } catch(e){
         console.log(e);
+        setError('Unexpected error occurred\n please try again later');
       }
   };
 
@@ -36,7 +70,7 @@ const VehicleItemModal = data => {
     const userDocRef = doc(db, USERS, userName);
     getDoc(userDocRef).then((userDocSnap) => {
       if(!userDocSnap.exists()){
-        //TO DO:  add error
+        setError('Unexpected error occurred\n please try again later');
         return;
       }
       const renterData = userDocSnap.data();
@@ -45,6 +79,10 @@ const VehicleItemModal = data => {
       });
   };
 
+  useEffect(() => {
+    loadRate();
+  },[])
+
   return <div id={`simpleModal_${data.id}`} className="modal">
             <div className="modal-window large">
               <div className="modal-header">
@@ -52,7 +90,7 @@ const VehicleItemModal = data => {
                     <button className='close-modal-btn' data-dismiss="modal">X</button>                  
               </div>
               <div className="modal-body">
-                    {data.imagesUrls.map(imgUrl => <img width='300px' key={imgUrl} src={imgUrl} alt=''/>)}
+                    {data.imagesUrls.length ? data.imagesUrls.map(imgUrl => <img width='300px' key={imgUrl} src={imgUrl} alt=''/>)  : <img width='300px' src='/no-img.jpg' alt=''/>}
                     <p>{data.desc}</p>
                     <div>{data.price} $ For houre</div>
                     <div className='rate-title'>I know this item and want to rate:</div>
@@ -74,10 +112,11 @@ const VehicleItemModal = data => {
                     <button type="button" className="btn btn-primary" onClick={getRenterDetailes}>Contact Renter</button>
                         :<div className='contact-renter'>
                         <a href={`tel:+${renterDetailes.phoneNumber}`}><i className="fa fa-phone fa-2x" aria-hidden="true"></i></a>
-                        <a target="_blank" href={`https://wa.me/${renterDetailes.phoneNumber}/?text=I'm%20interested%20in%20hearing%20more%20about%20your%20vehicle`}><i className="fa fa-whatsapp green-color fa-2x" aria-hidden="true"></i></a>
+                        {renterDetailes.hasWhatsapp && <a target="_blank" href={`https://wa.me/${renterDetailes.phoneNumber}/?text=I'm%20interested%20in%20hearing%20more%20about%20your%20vehicle`}><i className="fa fa-whatsapp green-color fa-2x" aria-hidden="true"></i></a>}
                         <a href={`mailto:${renterDetailes.email?.replaceAll('"', '')}`}> <i className="fa fa-envelope fa-2x" aria-hidden="true"></i></a>
                     </div>
                     }
+                    <div className='error'>{error}</div>
                   </div>
             </div>
           </div>

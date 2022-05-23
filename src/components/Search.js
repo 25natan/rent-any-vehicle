@@ -68,7 +68,7 @@ const Search = ({setVehiclesToDisplay, setNoResults, setToDisplaySideMenu, class
             <span className='location'><h4>Location</h4>
 
             <input  id={'location-field'} required /></span>
-            <div className='radius'><div className='radius-title'>radius</div><input type='number' min='0.5' onChange={(e)=> {setRadius(e.target.value *1000)}}></input></div>
+            <div className='radius'><div className='radius-title'>radius (km)</div><input type='number' min='0.5' onChange={(e)=> {setRadius(e.target.value *1000)}}></input></div>
             <button className='search-btn' onClick={sumbitSearch}>Search For Me</button>
         </div>
     );

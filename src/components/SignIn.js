@@ -1,24 +1,11 @@
 import React, {useEffect} from "react";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import { Link } from "@mui/material";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {auth, provider, db} from '../firebase-config';
 import {signInWithPopup} from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
-import { doc, getDoc, setDoc } from "firebase/firestore"; 
-
-
-const theme = createTheme();
+import { doc, getDoc } from "firebase/firestore"; 
 
 const USERS = 'users';
 
@@ -28,12 +15,22 @@ export default function SignIn(props) {
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider).then((result) => {
       const [userName, password] = [result.user.displayName, result.user.email];
-      props.signUserUp(userName, password);
+      const userDocRef = doc(db, USERS, userName);
+      getDoc(userDocRef).then((userDocSnap) => {
+      if(userDocSnap.exists() && userDocSnap.data().password === password){
+        props.setIsAuth(true);
+        props.setUserName(userName);
+        navigate('/');
+      }
+      else {
+        alert('Sorry! Plesae sign up first\n or sign in to your google acount - if you are already registered -\nand then try again');
+        navigate('/signup');
+      }
     });
-  };
+  });}
 
   useEffect(() => {
-    if(props.isAuth)  navigate('/home');
+    if(props.isAuth)  navigate('/');
   },[]);
 
   const signIn = (event) => {
@@ -44,15 +41,11 @@ export default function SignIn(props) {
       if(userDocSnap.exists() && userDocSnap.data().password === password){
         props.setIsAuth(true);
         props.setUserName(userName);
-        window.location.pathname = '/';
+        navigate('/');
       }
       else props.setError('Sorry... Username or password are not correct');
     }).catch((e)=> console.log(e));
   };
-
-  useEffect(() => {
-    if(props.isAuth) navigate('/');
-  },[]);
 
   return (
     <div className="signin-page">

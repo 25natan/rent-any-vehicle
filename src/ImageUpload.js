@@ -1,7 +1,6 @@
 import React from "react";
 import ImageUploading from "react-images-uploading";
 import Button from "@mui/material/Button";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 
@@ -10,8 +9,6 @@ const ImageUploader = (props) => {
   const maxNumber = 69;
 
   const onChange = (imageList, addUpdateIndex) => {
-    // data for submit
-    console.log(imageList, addUpdateIndex);
     setImages(imageList);
   };
 
@@ -33,11 +30,9 @@ const ImageUploader = (props) => {
           isDragging,
           dragProps,
         }) => (
-          // write your building UI
           <div className="upload__image-wrapper">
             <Button
               variant="contained"
-              //   startIcon={<PhotoCamera />}
               style={
                 (isDragging ? { color: "red" } : undefined,
                 { margin: "0 20px 0" })
@@ -47,7 +42,7 @@ const ImageUploader = (props) => {
             >
               Click or Drop here
             </Button>
-            <Button
+            {imageList.length ? <Button
               size="small"
               startIcon={<DeleteIcon />}
               onClick={onImageRemoveAll}
@@ -55,7 +50,8 @@ const ImageUploader = (props) => {
               style={{ margin: "15px 0 40px 0" }}
             >
               Remove all images
-            </Button>
+            </Button> : <></>
+}
             {imageList.map((image, index) => (
               <div
                 key={index}

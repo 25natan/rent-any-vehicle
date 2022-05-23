@@ -88,20 +88,10 @@ function App() {
           </>
         }
         </nav>
+        {isLoading &&  <div className="loader-circle-9">Loading<span></span></div>} 
         </div>
-        {isLoading && <div className='loading'>
-                <div id="load">
-                    <div>G</div>
-                    <div>N</div>
-                    <div>I</div>
-                    <div>D</div>
-                    <div>A</div>
-                    <div>O</div>
-                    <div>L</div>
-                </div>
-            </div>}
         <Routes>
-          <Route path="/" element={<Home isAuth={isAuth} isLoading={isLoading} setIsLoading={setIsLoading}/>}/>
+          <Route path="/*" element={<Home isAuth={isAuth} isLoading={isLoading} setIsLoading={setIsLoading}/>}/>
           <Route path="/addItem" element={<AddItem isAuth={isAuth} userName={userName}  setIsLoading={setIsLoading}/>}/>
           <Route path="/signIn" element={<SignIn setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth} error={error} setError={setError} />}/>
           <Route path="/signUp" element={<SignUp setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth} error={error} />}/>

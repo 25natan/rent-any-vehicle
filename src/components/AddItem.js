@@ -1,41 +1,22 @@
 import { useEffect } from "react";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import UploadButtons from "../UploadButton";
-import Autocomplete from "@mui/material/Autocomplete";
-import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
 import Icon from "@mui/material/Icon";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import BikeScooterIcon from "@mui/icons-material/BikeScooter";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Container from "@mui/material/Container";
 import ImageUploader from "../ImageUpload";
 import { useState } from "react";
-import { setDoc, collection, deleteDoc, doc , addDoc} from "firebase/firestore";
+import { collection, addDoc} from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { auth, db, storage } from "../firebase-config";
+import { db, storage } from "../firebase-config";
 import {ref, uploadBytes, listAll, getDownloadURL} from 'firebase/storage';
 import {v4} from 'uuid';
 import {vihecleTypes} from '../constants';
-import { TextareaAutosize } from "@mui/material";
 import { geohashForLocation } from "geofire-common";
 import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
 
-const animatedComponents = makeAnimated();
 
-const theme = createTheme();
 
 export default function AddItem({isAuth, userName,  setIsLoading}) {
-  const [type, setType] = useState(null);
   const [location, setLocation] = useState([0.5,0.5]);
   const [place, setPlace] = useState('place?');
-  const [desc, setDesc] = useState('');
-  const [price, setPrice] = useState(null);
   const [images, setImages] = useState([]);
 
   let navigate = useNavigate();

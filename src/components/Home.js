@@ -43,7 +43,6 @@ const Home = props => {
 
     useEffect(() => {
             if (!props.isAuth) navigate('/signin');
-  
             getAllVehicles();
     }, []);
 
