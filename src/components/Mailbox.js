@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { v4 } from 'uuid';
 import { db } from '../firebase-config';
+import Inbox from './Inbox';
+import Outbox from './Outbox';
 
 const Mailbox = ({isAuth, userName}) => {
     const [inbox, setInbox] = useState([]);
@@ -12,22 +14,29 @@ const Mailbox = ({isAuth, userName}) => {
     const [msgToReply, setMsgToReply] = useState('');
     let navigate = useNavigate();
 
-    const getMessages = async () => {
-        try{
-            const qIn = query(collection(db, 'mail-box'), where("to", "==", userName), orderBy('date'));
-            const resDocIn = await getDocs(qIn);
-            setInbox(resDocIn.docs.map(doc => {
-                let date = new Date( doc.data().date.toDate()).toISOString();
-                date = date?.split('T')[0] + ' ' + date?.split('T')[1].split('.')[0]
-                return {...doc.data(), date};
-            }));
-            const qOut = query(collection(db, 'mail-box'), where("from", "==", userName), orderBy('date'));
+    const fetchInbox = async () => {
+        const qIn = query(collection(db, 'mail-box'), where("to", "==", userName), orderBy('date'));
+        const resDocIn = await getDocs(qIn);
+        setInbox(resDocIn.docs.map(doc => {
+            let date = new Date( doc.data().date.toDate()).toISOString();
+            date = date?.split('T')[0] + ' ' + date?.split('T')[1].split('.')[0]
+            return {...doc.data(), date};
+        }));
+    };
+    const fetchOutbox = async () => {
+        const qOut = query(collection(db, 'mail-box'), where("from", "==", userName), orderBy('date'));
             const resDocOut = await getDocs(qOut);
             setOutbox(resDocOut.docs.map(doc => {
-                let date = new Date( doc.data().date.toDate()).toISOString();
-                date = date?.split('T')[0] + ' ' + date?.split('T')[1].split('.')[0]
+                let date = doc.data()?.date && new Date( doc.data().date.toDate()).toISOString();
+                date = date?.split('T')[0] + '   ' + date?.split('T')[1].split('.')[0]
                 return {...doc.data(), date};
             }));
+    };
+
+    const getMessages = async () => {
+        try{
+            fetchInbox();
+            fetchOutbox();
             } catch (error) {
                 console.log(error);
             }
@@ -45,55 +54,22 @@ const Mailbox = ({isAuth, userName}) => {
             }
       }
 
-      const getInbox = () => {
-          return inbox.map((msg, ind) => <div className='mail-card' key={ind}>
-          <div className='msg-card'>
-              <div className='msg-card-header'>
-                 <div className='from'> {msg.from}</div>
-                 <div className='msg-date'>  {msg.date}</div>
-              </div>
-              <div className='msg-card-body'>{msg.message}</div>
-              <div className='msg-card-footer'>
-              <button onClick={() => document.getElementById(`reply-msg-inbox-${ind}`).style.display = 'flex'}>Reply</button>
-              <div className='reply-msg' id={`reply-msg-inbox-${ind}`}>
-              <textarea onChange={(e)=> setMsgToReply(e.target.value)}></textarea>
-              <button onClick={() => sendMsg({to: msg.from, ind})}>Send</button>
-              </div> 
-              <div className='approve' id={`approve-${ind}`}>message sent</div>
-              </div>         
-            </div>
-      </div>);
-      };
-
-      const getOutbox = () => {
-          return outbox.map(msg => <div className='mail-card' key={msg}>
-          <div className='msg-card'>
-              <div className='msg-card-header'>
-                 <div className='from'> {msg.from}</div>
-                 <div className='msg-date'>  {msg.date}</div>
-              </div>
-              <div className='msg-card-body'>{msg.message}</div>
-          </div>
-      </div>);
-      };
-
       useEffect(() => {
         if(!isAuth) navigate('/signin');
         getMessages();
       },[]);
 
-    return (
-        <div className='mail-box'>
+    return (<div className='mail-box'>
             <h1>Mail Box</h1>
             {
                <nav className='mailbox-nav'>
-               <div className='inbox-btn' onClick={() => setBoxToDisplay('in')}>Inbox</div>
-               <div className='outbox-btn' onClick={() => setBoxToDisplay('out')}>Outbox</div>
+               <div className={`inbox-btn${boxToDisplay === 'in' ? ' active-bar' : ''}`} onClick={async() => {await fetchInbox(); setBoxToDisplay('in')}}>Inbox</div>
+               <div className={`outbox-btn${boxToDisplay === 'out' ? ' active-bar' : ''}`} onClick={async() => {await fetchOutbox(); setBoxToDisplay('out')}}>Outbox</div>
              </nav>
             }   
             {
                 boxToDisplay === 'in' ?
-                getInbox() : getOutbox()
+                <Inbox inbox={inbox} setMsgToReply={setMsgToReply} sendMsg={sendMsg} /> : <Outbox outbox={outbox} />
             }
         </div>
     );

@@ -8,15 +8,15 @@ const VehicleItem = ({data, deleteVehicle, userName}) => {
         <div className='vehicle-item-small' >
         <button className='open-modal-btn' data-target={`simpleModal_${data.id}`} data-toggle="modal">...</button>
         <div className='cover-img'><img src={data.imagesUrls[0] || '/no-img.jpg'} alt=''/></div>
-      {data.renter === userName && <Button className='delete-vehicle' onClick={() => {deleteVehicle(data.id)}}>&#128465;</Button>}
+      {data.renter === userName && <button className='delete-vehicle' onClick={() => {deleteVehicle(data.id)}}>&#128465;</button>}
         <div className='card-center-row'>
         <div className='type'>
             {data.type}
         </div>
           <div className='short-desc'>{data.desc}</div>
           <div className='stars'>{Array(data.rateAvg).fill().map(()=> <i key={Math.random()} className='fa fa-star fa-2x'></i>)}</div>
-        <div className='small-card-footer'>
         </div>
+        <div className='small-card-footer'>
           <div className='price'>{data.price} $</div>
           <div className='location'>{data.placeName}</div>
           <div className='distance'>{data.distance?.toFixed(1)} km</div>

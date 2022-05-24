@@ -92,11 +92,11 @@ function App() {
         {isLoading &&  <div className="loader-circle-9">Loading<span></span></div>} 
         </div>
         <Routes>
-          <Route path="/*" element={<Home isAuth={isAuth} isLoading={isLoading} setIsLoading={setIsLoading} userName={userName} />}/>
           <Route path="/addItem" element={<AddItem isAuth={isAuth} userName={userName}  setIsLoading={setIsLoading}/>}/>
           <Route path="/signIn" element={<SignIn setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth} error={error} setError={setError} />}/>
           <Route path="/signUp" element={<SignUp setUserName={setUserName} signUserUp={signUserUp} isAuth={isAuth} setIsAuth={setIsAuth} error={error} />}/>
           <Route path="/messages" element={<Mailbox isAuth={isAuth} userName={userName} />}/>
+          <Route path="/*" element={<Home isAuth={isAuth} isLoading={isLoading} setIsLoading={setIsLoading} userName={userName} />}/>
         </Routes>
       </Router>
     </div>

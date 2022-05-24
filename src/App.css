@@ -372,6 +372,12 @@ nav.mailbox-nav div {
     margin: 0px 0px 0.35em;
     font-family: Roboto, Helvetica, Arial, sans-serif;
 }
+.small-card-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 15px;
+}
 
 .vehicle-card .modal-header {
   background-color: #ffc107;
@@ -676,11 +682,14 @@ button.submit-upload {
   border-radius:5px;
   margin:7px;
 }
-.vehicle-card button.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButtonBase-root.delete-vehicle.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+.vehicle-card button.delete-vehicle {
   position: absolute;
   bottom: 10px;
   left: 0;
   font-size: x-large;
+  left: 10px;
+  background: none;
+  border: none;
 }
 
 .msg-card {
@@ -709,6 +718,10 @@ button.submit-upload {
 
 .mail-box {
   margin-top: 50px;
+}
+.mail-box .active-bar {
+  padding: 12px;
+  outline: solid 3px;
 }
 
 .mail-card {
