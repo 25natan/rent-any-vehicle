@@ -681,3 +681,27 @@ button.submit-upload {
   color: white;
   border-radius: 3px;
 }
+
+.reply-msg {
+  display:none;
+  padding:15px;
+  flex-direction: column;
+}
+
+.msg-card-footer {
+  width: fit-content;
+  left: 0;
+  right: 0;
+  margin: 10px auto;
+}
+.msg-card-footer button{
+  background: black;
+  border: none;
+  margin-top: 10px;
+  color: white;
+  border-radius: 3px;
+}
+
+.msg-card-footer .approve {
+  display: none;
+}
