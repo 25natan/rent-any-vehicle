@@ -51,8 +51,8 @@ export default function AddItem({isAuth, userName,  setIsLoading}) {
       await addDoc(vehiclesCollectionRef, {type, price, desc, imagesUrls: imagesItemUrls, renter: userName,
         lat:location[0], lng:location[1], rate:[], geohash: geohashForLocation(location), placeName: place});
         setIsLoading(false);
-      alert('Item Upladed!');
-    } catch (e) {
+        document.getElementById('image-approve').style.display = 'flex';
+      } catch (e) {
       console.log(e);
       setIsLoading(false);
     }
@@ -89,6 +89,7 @@ export default function AddItem({isAuth, userName,  setIsLoading}) {
           <PhotoCamera sx={{ margin: "40px 0 20px 0" }} />
          <ImageUploader images={images} setImages={setImages} />{" "}
           <button className="submit-upload" type='submit'>Submit</button>
+          <div className="approve" id='image-approve'>Image uploaded successfully!</div>
         <span className="error" aria-live="polite">{}</span>
         </form>
   </div>
