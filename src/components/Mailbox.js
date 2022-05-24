@@ -17,20 +17,22 @@ const Mailbox = ({isAuth, userName}) => {
     const fetchInbox = async () => {
         const qIn = query(collection(db, 'mail-box'), where("to", "==", userName), orderBy('date'));
         const resDocIn = await getDocs(qIn);
-        setInbox(resDocIn.docs.map(doc => {
+        const data = resDocIn.docs.map(doc => {
             let date = new Date( doc.data().date.toDate()).toISOString();
             date = date?.split('T')[0] + ' ' + date?.split('T')[1].split('.')[0]
             return {...doc.data(), date};
-        }));
+        });
+        setInbox(data.sort((a, b) => (a.data - b.date ? 1 : -1)));
     };
     const fetchOutbox = async () => {
         const qOut = query(collection(db, 'mail-box'), where("from", "==", userName), orderBy('date'));
             const resDocOut = await getDocs(qOut);
-            setOutbox(resDocOut.docs.map(doc => {
+            const data = resDocOut.docs.map(doc => {
                 let date = doc.data()?.date && new Date( doc.data().date.toDate()).toISOString();
                 date = date?.split('T')[0] + '   ' + date?.split('T')[1].split('.')[0]
                 return {...doc.data(), date};
-            }));
+            });
+            setOutbox(data.sort((a, b) => a.data - b.date ? 1 : -1));
     };
 
     const getMessages = async () => {
@@ -55,9 +57,10 @@ const Mailbox = ({isAuth, userName}) => {
       }
 
       useEffect(() => {
+          const isAuth = localStorage.getItem('isAuth');
         if(!isAuth) navigate('/signin');
         getMessages();
-      },[]);
+      }, []);
 
     return (<div className='mail-box'>
             <h1>Mail Box</h1>

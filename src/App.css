@@ -719,8 +719,11 @@ button.submit-upload {
 .mail-box {
   margin-top: 50px;
 }
-.mail-box .active-bar {
+.mailbox-nav div {
   padding: 12px;
+}
+
+.mail-box .active-bar {
   outline: solid 3px;
 }
 

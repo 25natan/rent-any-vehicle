@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Inbox = ({inbox, setMsgToReply, sendMsg}) => {
-    return inbox.map((msg, ind) => <div className='mail-card' key={ind}>
+    return inbox.length ? inbox.map((msg, ind) => <div className='mail-card' key={ind}>
         <div className='msg-card'>
             <div className='msg-card-header'>
                <div className='from'> {msg.from}</div>
@@ -17,7 +17,7 @@ const Inbox = ({inbox, setMsgToReply, sendMsg}) => {
             <div className='approve' id={`approve-${ind}`}>message sent</div>
             </div>         
           </div>
-    </div>);
+    </div>) : <img src='/empty-mailbox.jpeg' alt=''/>;
 };
 
 export default Inbox;
