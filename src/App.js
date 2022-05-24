@@ -78,16 +78,17 @@ function App() {
       <Router>
       <div className="header">
       <div className="logo"> <img src='/logo.png' alt='logo'/></div>
-        <nav className="main-nav">
+        <div className="main-nav">
           {!isAuth ? <Link to='/signin'>Sign In</Link> :
           <>
           <Link to='/'>Home</Link>
           <Link to='/addItem'>Add Vehicle</Link>
           <Link to='#' onClick={signUserOut}>Sign Out</Link>
+          <div className="user-profile">Hi {userName} </div>
           <div className=" mailbox-nav-btn"><Link to='messages'><i className="fa fa-envelope" aria-hidden="true"></i></Link></div>
           </>
         }
-        </nav>
+        </div>
         {isLoading &&  <div className="loader-circle-9">Loading<span></span></div>} 
         </div>
         <Routes>

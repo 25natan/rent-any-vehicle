@@ -26,6 +26,7 @@ const MediaCard = ({data, deleteVehicle, userName}) => {
       </CardContent>
       <CardContent className='small-card-footer'>
         <div className='price'>{data.price} $</div>
+        <div className='location'>{data.placeName}</div>
         <div className='distance'>{data.distance?.toFixed(1)} km</div>
         </CardContent>
     </Card>
