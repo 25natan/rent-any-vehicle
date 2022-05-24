@@ -3,7 +3,7 @@ a:hover {
 }
 
 form.signup-form .css-1999axt-MuiAvatar-root{
-  background-color: #c67f22;
+  background-color: #c67f22 !important;
 }
 form.signup-form {
   display: inline-flex;
