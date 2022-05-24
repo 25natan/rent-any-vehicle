@@ -51,9 +51,7 @@ export default function SignIn(props) {
     <div className="signin-page">
       <form className="signup-form" onSubmit={signIn}>
         <h1>Sign In</h1>
-      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-        </Avatar>
+        <img src='/lock-icon.jpg' alt=''/>
         <label htmlFor='userName'>User Name</label>
         <input required name='userName'></input>
         <label htmlFor='password' className="password">Password</label>

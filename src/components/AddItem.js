@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import Icon from "@mui/material/Icon";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import ImageUploader from "../ImageUpload";
 import { useState } from "react";
@@ -69,9 +68,7 @@ export default function AddItem({isAuth, userName,  setIsLoading}) {
     <div className="add-vehicle-page">
         <form className="signup-form" onSubmit={addVehiclesToDb}>
         <h1>Add Vehicle</h1>
-        <Icon color="primary" sx={{ fontSize: 40, marginBottom: "20px" }}>
-           add_circle
-         </Icon>
+         <img src='/plus-icon.jpg' alt=''/>
          <label>Vehicle Type</label>
           <Select
                 name='type' 
