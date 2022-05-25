@@ -85,11 +85,11 @@ function App() {
           <Link to='/addItem'>Add Vehicle</Link>
           <Link to='#' onClick={signUserOut}>Sign Out</Link>
           <div className="user-profile">Hi {userName} </div>
-          <div className=" mailbox-nav-btn"><Link to='messages'><i className="fa fa-envelope" aria-hidden="true"></i></Link></div>
+          <div className="mailbox-nav-btn"><Link to='messages'><i className="fa fa-envelope" aria-hidden="true"></i></Link></div>
           </>
         }
         </div>
-        {isLoading &&  <div className="loader-circle-9">Loading<span></span></div>} 
+        { isLoading && <div className="loader"></div>} 
         </div>
         <Routes>
           <Route path="/addItem" element={<AddItem isAuth={isAuth} userName={userName}  setIsLoading={setIsLoading}/>}/>

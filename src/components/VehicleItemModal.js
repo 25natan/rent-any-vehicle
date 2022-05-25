@@ -42,7 +42,7 @@ const VehicleItemModal = (data, currentUserName) => {
     console.log('date', now);
     await setDoc(userDocRef, {message: message, from: currentUserName, to: data.renter, vehicle: data.id, date: now});
     document.getElementById('msgToMailBox').style.display = 'none';
-    document.getElementById('approve').style.display = 'flex';
+    document.getElementById(`approve-${data.id}`).style.display = 'flex';
     } catch (error) {
       console.log(error);
     }
@@ -73,10 +73,14 @@ const VehicleItemModal = (data, currentUserName) => {
                     <button className='close-modal-btn' data-dismiss="modal">X</button>                  
               </div>
               <div className="modal-body">
-                    {data.imagesUrls.length ? data.imagesUrls.map(imgUrl => <img width='300px' key={imgUrl} src={imgUrl} alt=''/>)  : <img width='300px' src='/no-img.jpg' alt=''/>}
+                    {data.imagesUrls.length ? data.imagesUrls.map(imgUrl => <img className='vehicle-img' width='300px' key={imgUrl} src={imgUrl} alt=''/>)  : <img width='300px' src='/no-img.jpg' alt=''/>}
                     <p>{data.desc}</p>
                     <div className='detiles'>
-                    <div>{data.price} $ For houre</div>
+                      <div className='rentre-name'>
+                      <img className='user-icon' src='/user-icon.jpg' alt=''></img>
+                      <div className='renterName'>{data.renter}</div>
+                      </div>
+                    <div className='modai-price'>{data.price} $ For houre</div>
                     <div className='location'>{data.placeName}</div>
                       <div className='distance'>{data.distance?.toFixed(1)} km</div> 
                       </div>   
@@ -108,7 +112,7 @@ const VehicleItemModal = (data, currentUserName) => {
                         <a href={`mailto:${renterDetailes.email?.replaceAll('"', '')}`}> <i className="fa fa-envelope fa-2x" aria-hidden="true"></i></a>
                     </div>
                     }
-                    <div id='approve'>message sent</div>
+                    <div className='approve' id={`approve-${data.id}`}>message sent</div>
                     <div className='error'>{error}</div>
                   </div>
             </div>

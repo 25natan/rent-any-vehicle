@@ -357,11 +357,18 @@ nav.mailbox-nav div {
   color: red;
 }
 
-.vehicle-card img {
+.vehicle-card .vehicle-item-small img {
   margin-bottom: 10px;
   object-fit: cover;
   width: 280px;
   height: 228px;
+}
+.vehicle-card .rentre-name {
+  background: #80808069;
+  width: fit-content;
+  margin: 14px auto;
+  border-radius: 15px;
+  padding: 15px;
 }
 
 .vehicle-item-small {
@@ -417,17 +424,9 @@ nav.mailbox-nav div {
 .vehicle-card .modal-body img {
   padding: 10px;
 }
-.vehicle-card .MuiCardActions-root.MuiCardActions-spacing.css-1t6e9jv-MuiCardActions-root {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
 
 .add-vehicle-page .css-b62m3t-container {
   width: 196px;
-}
-.add-vehicle-page .css-17pm3r2-MuiIcon-root {
-  color: #c67f22;
 }
 
 .add-vehicle-page button {
@@ -437,30 +436,11 @@ nav.mailbox-nav div {
 .add-vehicle-page button:hover {
   background: #212529db;
 }
-.add-vehicle-page button.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeSmall.MuiButton-outlinedSizeSmall.MuiButtonBase-root.css-1k23hlb-MuiButtonBase-root-MuiButton-root:hover {
-  background: #212529db;
-}
 
-.vehicle-card .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.css-1ri6ub7-MuiPaper-root-MuiCard-root {
-  height: 400px;
-  width: 295px;
-}
 textarea.add-item-desc {
   max-width: fit-content;
 }
 
-.MuiCardContent-root.small-card-footer.css-46bh2p-MuiCardContent-root {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  bottom: -18px;
-}
 
 .search-results {
   padding-left: 15px;
@@ -623,75 +603,22 @@ button.submit-upload {
    radial-gradient(#25d366 60%,transparent 0);
 }
 
+.loader {
+  position: absolute;
+  z-index: 10;
+  top: 60vh;
+  left: 46%;
+  border: 16px solid #212529;
+  border-top: 16px solid #d9a56a;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
 
-.loader-circle-9 {
-  position: absolute;
-  top: 50vh;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70px;
-  height: 70px;
-  background: transparent;
-  border: 3px solid #3c3c3c;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 70px;
-  font-family: sans-serif;
-  font-size: 12px;
-  color: #c67f22;
-  text-transform: uppercase;
-  box-shadow: 0 0 20px rgba(0, 0, 0, .5);
-}
-.loader-circle-9:before {
-  content: '';
-  position: absolute;
-  top: -3px;
-  left: -3px;
-  width: 100%;
-  height: 100%;
-  border: 3px solid transparent;
-  border-top: 3px solid #c67f22;
-  border-right: 3px solid #c67f22;
-  border-radius: 50%;
-  animation: animateC 2s linear infinite;
-}
-.loader-circle-9 span {
-  display: block;
-  position: absolute;
-  top: calc(50% - 2px);
-  left: 50%;
-  width: 50%;
-  height: 4px;
-  background: transparent;
-  transform-origin: left;
-  animation: animate 2s linear infinite;
-}
-.loader-circle-9 span:before {
-  content: '';
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #c67f22;
-  top: -6px;
-  right: -8px;
-  box-shadow: 0 0 20px #c67f22;
-}
-@keyframes animateC {
-  0% {
-      transform: rotate(0deg);
-  }
-  100% {
-      transform: rotate(360deg);
-  }
-}
-@keyframes animate {
-  0% {
-      transform: rotate(45deg);
-  }
-  100% {
-      transform: rotate(405deg);
-  }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .msgToMailBox {
@@ -707,7 +634,7 @@ button.submit-upload {
 }
 .vehicle-card button.delete-vehicle {
   position: absolute;
-  bottom: 10px;
+  bottom: 0;
   left: 0;
   font-size: x-large;
   left: 10px;
@@ -715,7 +642,9 @@ button.submit-upload {
   border: none;
   z-index: 2;
 }
-
+.vehicle-card .modai-price {
+  color: #c19119;
+}
 .msg-card {
   border: 3px solid black;
   border-radius: 3px;
@@ -762,11 +691,27 @@ button.submit-upload {
   background: black;
   border: none;
   display: block;
-  margin: 10px;
+  margin: 10px 0 20px 0;
   color: white;
   border-radius: 3px;
 }
 
+.vehicle-card .fa-envelope {
+  color: #090909;
+}
+.empty-results h2 {
+  width: 302px;
+  margin: auto;
+}
+
+.empty-results {
+  left: 0;
+  right: 0;
+  position: absolute;
+}
+.fa-phone {
+  color: #090909;
+}
 .reply-msg {
   display:none;
   padding:15px;

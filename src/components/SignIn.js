@@ -1,11 +1,9 @@
 import React, {useEffect} from "react";
-import Avatar from "@mui/material/Avatar";
 import { Link } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {auth, provider, db} from '../firebase-config';
 import {signInWithPopup} from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore"; 
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore"; 
 
 const USERS = 'users';
 
@@ -13,21 +11,29 @@ export default function SignIn(props) {
   let navigate = useNavigate();
 
   const signInWithGoogle = () => {
-    signInWithPopup(auth, provider).then((result) => {
-      const [userName, password] = [result.user.displayName, result.user.email];
-      const userDocRef = doc(db, USERS, userName);
-      getDoc(userDocRef).then((userDocSnap) => {
-      if(userDocSnap.exists() && userDocSnap.data().password === password){
-        props.setIsAuth(true);
-        props.setUserName(userName);
-        navigate('/');
-      }
-      else {
-        alert('Sorry! Plesae sign up first\n or sign in to your google acount - if you are already registered -\nand then try again');
-        navigate('/signup');
-      }
-    });
-  });}
+    try{
+      signInWithPopup(auth, provider).then(async (result) => {
+        const [email] = [result.user.email];
+        console.log('!email',email);
+        const q = query(collection(db, USERS), where("email", "==", email));
+        const docs = await getDocs(q);
+        if(docs.docs[0].exists()){
+          console.log(docs.docs[0].data());
+          const data = docs.docs[0].data();
+          props.setIsAuth(true);
+          props.setUserName(data.userName);
+          console.log('doc.data().userName', data.userName);
+          navigate('/');
+        }
+        else {
+          alert('Sorry! Plesae sign up first\n or sign in to your google acount - if you are already registered -\nand then try again');
+          navigate('/signup');
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     if(props.isAuth)  navigate('/');
