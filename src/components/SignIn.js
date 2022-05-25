@@ -10,19 +10,17 @@ const USERS = 'users';
 export default function SignIn(props) {
   let navigate = useNavigate();
 
-  const signInWithGoogle = () => {
+  const signInWithGoogle = e => {
     try{
+      e.preventDefault();
       signInWithPopup(auth, provider).then(async (result) => {
         const [email] = [result.user.email];
-        console.log('!email',email);
         const q = query(collection(db, USERS), where("email", "==", email));
         const docs = await getDocs(q);
         if(docs.docs[0].exists()){
-          console.log(docs.docs[0].data());
           const data = docs.docs[0].data();
           props.setIsAuth(true);
           props.setUserName(data.userName);
-          console.log('doc.data().userName', data.userName);
           navigate('/');
         }
         else {
