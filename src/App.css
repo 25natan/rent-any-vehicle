@@ -97,6 +97,7 @@ body {
 }
 
 .main-nav {
+  position: relative;
   margin: 0;
   width: 100%;
   height: 80px;
@@ -672,9 +673,16 @@ button.submit-upload {
 .mail-box {
   margin-top: 50px;
 }
+@media only screen and (max-width: 450px) {  
+  .mailbox-nav-btn{
+      top: 0px;
+  }
+}
 .mailbox-nav div {
   padding: 12px;
 }
+
+
 
 .mail-box .active-bar {
   border: solid 3px;
