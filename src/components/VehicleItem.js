@@ -8,7 +8,7 @@ const VehicleItem = ({data, deleteVehicle, userName}) => {
         <div className='vehicle-item-small' >
         <button className='open-modal-btn' data-target={`simpleModal_${data.id}`} data-toggle="modal">...</button>
         <div className='cover-img'><img src={data.imagesUrls[0] || '/no-img.jpg'} alt=''/></div>
-      {data.renter === userName && <button className='delete-vehicle' onClick={(e) => {console.log('data.id',data.id); deleteVehicle(data.id)}}>&#128465;</button>}
+      {data.renter === userName && <button className='delete-vehicle' onClick={(e) => {deleteVehicle(data.id);}}>&#128465;</button>}
         <div className='card-center-row'>
         <div className='type'>
             {data.type}

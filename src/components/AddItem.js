@@ -39,7 +39,6 @@ export default function AddItem({isAuth, userName,  setIsLoading}) {
     try{
       setIsLoading(true);
       const [type, price, desc] = [event.target.type.value, event.target.price.value, event.target.desc.value];
-      console.log('type, price, desc', type, price, desc);
       const folderUniqueId = v4();
       await Promise.all(images.map(async img => {
         const imageRef = ref(storage, `images/${folderUniqueId}/${img?.file?.name}`);
