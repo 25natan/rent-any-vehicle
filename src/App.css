@@ -2,6 +2,12 @@ a:hover {
   color: #ddc2a1;
 }
 
+input:focus-visible {
+  outline: solid 1px #c67f22;
+}
+textarea:focus-visible {
+  outline: solid 1px #c67f22;
+}
 .css-2ux37u {
   background-color: #c67f22 !important;
 }
@@ -61,6 +67,18 @@ span.error {
 }
 .add-vehicle-page .css-1s2u09g-control {
   height: 42px;
+}
+.add-vehicle-page .css-1s2u09g-control:hover {
+  outline: solid 1px #c67f22;
+  box-shadow: 0 0 0 1px #c67f22;
+}
+.add-vehicle-page .css-1s2u09g-control:focus-visible {
+  outline: solid 1px #c67f22;
+  border-color: #c67f22;
+}
+.add-vehicle-page .css-1s2u09g-control:focus-within {
+  outline: solid 1px #c67f22;
+  box-shadow: 0 0 0 1px #c67f22;
 }
 
 img {
@@ -343,7 +361,7 @@ nav.mailbox-nav div {
   margin-bottom: 10px;
   object-fit: cover;
   width: 280px;
-  height: 260px;
+  height: 228px;
 }
 
 .vehicle-item-small {
@@ -354,7 +372,7 @@ nav.mailbox-nav div {
   box-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px, rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px;
   overflow: hidden;
   width: 280px;
-  height: 468px;
+  height: 425px;
 }
 
 .vehicle-item-small .type {
@@ -367,7 +385,7 @@ nav.mailbox-nav div {
 }
 
 .vehicle-item-small .card-center-row {
-    padding: 16px;
+    padding: 1px 16px;
     color: rgba(0, 0, 0, 0.87);
     margin: 0px 0px 0.35em;
     font-family: Roboto, Helvetica, Arial, sans-serif;
@@ -387,6 +405,11 @@ nav.mailbox-nav div {
 .vehicle-card .modal-body {
   margin-top: 20px;
 }
+.modal-body .detiles {
+  font-size: 17px;
+  font-weight: 600;
+}
+
 .vehicle-card .modal-body p {
   padding: 10px 73px;
 }
@@ -690,6 +713,7 @@ button.submit-upload {
   left: 10px;
   background: none;
   border: none;
+  z-index: 2;
 }
 
 .msg-card {
@@ -724,7 +748,7 @@ button.submit-upload {
 }
 
 .mail-box .active-bar {
-  outline: solid 3px;
+  border: solid 3px;
 }
 
 .mail-card {
