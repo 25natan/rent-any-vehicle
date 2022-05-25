@@ -37,7 +37,7 @@ const Mailbox = ({isAuth, userName}) => {
     const getMessages = async () => {
         try{
             fetchInbox();
-            fetchOutbox();
+            await fetchOutbox();
             } catch (error) {
                 console.log(error);
             }
