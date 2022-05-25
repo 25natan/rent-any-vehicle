@@ -524,7 +524,7 @@ button.submit-upload {
   }
   .search {
     position: fixed;
-    z-index: 2000;
+    z-index: 1;
   }
 }
 
