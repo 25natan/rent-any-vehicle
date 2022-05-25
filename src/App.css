@@ -360,6 +360,7 @@ nav.mailbox-nav div {
 }
 
 .vehicle-card .vehicle-item-small img {
+  cursor: pointer;
   margin-bottom: 10px;
   object-fit: cover;
   width: 280px;
