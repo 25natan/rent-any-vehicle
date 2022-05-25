@@ -456,7 +456,7 @@ textarea.add-item-desc {
 
 .empty-results img{
   margin-top: 45px;
-  max-width: 36vw;
+  width: 156px;
 }
 
 .rate-title {
@@ -705,9 +705,11 @@ button.submit-upload {
 }
 
 .empty-results {
+  width: fit-content;
+  position: absolute;
+  margin: 28px auto;
   left: 0;
   right: 0;
-  position: absolute;
 }
 .fa-phone {
   color: #090909;
