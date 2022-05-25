@@ -75,7 +75,11 @@ const VehicleItemModal = (data, currentUserName) => {
               <div className="modal-body">
                     {data.imagesUrls.length ? data.imagesUrls.map(imgUrl => <img width='300px' key={imgUrl} src={imgUrl} alt=''/>)  : <img width='300px' src='/no-img.jpg' alt=''/>}
                     <p>{data.desc}</p>
+                    <div className='detiles'>
                     <div>{data.price} $ For houre</div>
+                    <div className='location'>{data.placeName}</div>
+                      <div className='distance'>{data.distance?.toFixed(1)} km</div> 
+                      </div>   
                     <div className='rate-title'>I know this item and want to rate:</div>
                     <div className='rate' onClick={getRate}>
                         <form>
@@ -87,7 +91,7 @@ const VehicleItemModal = (data, currentUserName) => {
                           <i className="fa fa-star-o fa-2x rating-star" id="rating-3" data-rating="3" tabIndex="0" aria-label="Rate as three out of 5 stars" role="radio"></i>
                           <i className="fa fa-star-o fa-2x rating-star" id="rating-4" data-rating="4" tabIndex="0" aria-label="Rate as four out of 5 stars" role="radio"></i>
                           <i className="fa fa-star-o fa-2x rating-star" id="rating-5" data-rating="5" tabIndex="0" aria-label="Rate as five out of 5 stars" role="radio"></i>
-                        </div>      
+                        </div>  
                      </div>
                 </div>
                   <div className="modal-footer">
