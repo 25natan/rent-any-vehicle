@@ -2,6 +2,10 @@ a:hover {
   color: #ddc2a1;
 }
 
+form {
+  max-width: 98vw;
+}
+
 input:focus-visible {
   outline: solid 1px #c67f22;
 }
@@ -146,12 +150,12 @@ nav.mailbox-nav div {
   pointer-events: none;
 }
 
-/* GOOGLE BUTTOn */
+/* GOOGLE BUTTON */
 .signin-with-google-btn {
   margin: 20px;
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
-  padding: 5px 16px 12px 42px;
+  padding: 5px 16px 5px 42px;
   border: none;
   border-radius: 3px;
   box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.25);

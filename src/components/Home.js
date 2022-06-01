@@ -55,7 +55,7 @@ const Home = props => {
     };
     
     const sortByRate = () => {
-        setVehiclesToDisplay(vehiclesToDisplay.sort((a, b) => (a.rate < b.rate ? 1 : -1)));
+        setVehiclesToDisplay(vehiclesToDisplay.sort((a, b) => a.rateAvg < b.rateAvg ? 1 : -1));
     };
 
     const sort = e => {
