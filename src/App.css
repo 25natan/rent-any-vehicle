@@ -325,6 +325,7 @@ nav.mailbox-nav div {
   height: min-content;
   width: 295px;
   position: relative;
+  cursor: pointer;
 }
 
 .vehicle-card .price {

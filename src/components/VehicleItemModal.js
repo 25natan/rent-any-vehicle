@@ -35,11 +35,8 @@ const VehicleItemModal = (data, currentUserName) => {
 
   const msgToMailBox = async () => {
     try{
-    console.log('msg',message);
-    console.log('currentUserName',currentUserName);
     const userDocRef = doc(db, 'mail-box', v4());
     const now = Timestamp.now()
-    console.log('date', now);
     await setDoc(userDocRef, {message: message, from: currentUserName, to: data.renter, vehicle: data.id, date: now});
     document.getElementById('msgToMailBox').style.display = 'none';
     document.getElementById(`approve-${data.id}`).style.display = 'flex';
